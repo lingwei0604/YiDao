@@ -25,6 +25,7 @@ import cn.ucai.util.ReadFileUtils;
 public class CarManage {
 
 	static String typeid = null;
+	static String baseprice = null;
 	static List<HashMap<String, String>> carlist;
 	static HashMap<String, String> carmap;
 
@@ -75,7 +76,7 @@ public class CarManage {
 		initCar();
 	}
 
-	static String baseprice;
+	
 
 	public static void initCar() {
 		String key = null;

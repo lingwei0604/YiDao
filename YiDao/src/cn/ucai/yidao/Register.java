@@ -44,6 +44,7 @@ public class Register {
 	static List<Driver> per2;
 	static List<DriverCar> drivercar;
 	static List<HashMap<String, String>> list;
+	static List<HashMap<String, String>> carSelectFromTolist;
 	static Map<String, List<DriverCar>> map3;
 	static Scanner sc = new Scanner(System.in);
 
@@ -136,7 +137,7 @@ public class Register {
 		mdpass = MD5Utils.md5Encode(pass + "123456");
 	}
 
-	static List<HashMap<String, String>> carSelectFromTolist;
+	
 
 	public static void trip() throws Exception {
 

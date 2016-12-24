@@ -35,10 +35,14 @@ public class AddreOperator {
 
 	static String startAddress;
 	static String endAddress;
+        static String baseprice;
 	static List<HashMap<String, String>> list;
 	static HashMap<String, String> map;
 	static List<HashMap<String, String>> newCarlist;
 	static HashMap<String, String> newCarmap;
+	static DBDao da = new DBDao();
+	static List<HashMap<String, String>> finalcarlist;
+	static CarManage carmange = new CarManage();
 	static Scanner sc = new Scanner(System.in);
 
 	public static void Main() throws Exception {
@@ -234,7 +238,7 @@ public class AddreOperator {
 
 	}
 
-	static DBDao da = new DBDao();
+	
 
 	public static void handleSqlJourney() throws Exception {
 
@@ -246,7 +250,7 @@ public class AddreOperator {
 		System.out.println(Constants.SAVE_SUCCEED);
 	}
 
-	static CarManage carmange = new CarManage();
+	
 
 	public static void merge() throws InterruptedException, SQLException {
 		// String filename1 = "D:/3.txt";
@@ -296,8 +300,7 @@ public class AddreOperator {
 
 	}
 
-	static String baseprice;
-	static List<HashMap<String, String>> finalcarlist;
+	
 
 	public static void finalCar() {
 		String key = null;
