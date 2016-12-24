@@ -52,6 +52,7 @@ public class Register {
 	static CarManage carmange = new CarManage();
 	static String newcartypeid = null;
 	static DBDao dao = new DBDao();
+
 	// 手机号的检测，长度，数字。
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -69,92 +70,19 @@ public class Register {
 		inputInit();
 
 		if (type.equals("chengke")) {
-
-			/*
-			 * 从文件中读取数据String filename1 = "D:\\1.txt";
-			 * handleType(filename1,map);
-			 * readTxtFile("D:\\1.txt");
-			 */
 			// 从数据库中写入、读取数据
 			handleSqlPerson();
 			list = ReadFileUtils.readPersonMysqlFile();
 
 		} else {
-			//String filename2 = "D:\\3.txt";
-			//handleType2(filename2, map2);
-			//readTxtFile("D:\\3.txt");
-
 			// 从数据库中写入、读取数据
 			handleSqlDriver();
 			list = ReadFileUtils.readDriverMysqlFile();
 
 		}
-		// readTxtFile("D:\\1.txt");
-		// System.out.println(list);
 		signin();
 
 	}
-
-//	public static List<HashMap<String, String>> readPersonMysqlFile()
-//			throws SQLException {
-//		// 定义存储读取到的数据记录的集合
-//		list = new ArrayList<HashMap<String, String>>();
-//		String sql = "select * from person";
-//		ps = conn.prepareStatement(sql);
-//		ResultSet rs = ps.executeQuery();
-//		ResultSetMetaData rsmd = rs.getMetaData();// 得到结果集列的属性
-//		int count = rsmd.getColumnCount();// 得到记录有多少列
-//		// 之前写到这里，list中的都是多条同样的数据，而放下面就可以解决这个问题
-//		while (rs.next()) {
-//			HashMap<String, String> map = new HashMap<String, String>();
-//			for (int i = 1; i < count + 1; i++) {
-//				// 获取指定列的表目录名称
-//				String label = rsmd.getColumnLabel(i);
-//				// 以 Java 编程语言中 Object 的形式获取此 ResultSet 对象的当前行中指定列的值
-//				Object object = rs.getObject(i);
-//				// 把数据库中的字段名和值对应为一个map对象中的一个键值对
-//				map.put(label.toLowerCase(), String.valueOf(object));
-//				// System.out.println(map);
-//				// 把每条对象封装成的map对象放进list中
-//
-//			}
-//			list.add(map);
-//
-//		}
-//		return list;
-//	}
-//
-//	public static List<HashMap<String, String>> readDriverMysqlFile()
-//			throws SQLException {
-//		// 定义存储读取到的数据记录的集合
-//		list = new ArrayList<HashMap<String, String>>();
-//		String sql = "select * from driver ";
-//		ps = conn.prepareStatement(sql);
-//		ResultSet rs = ps.executeQuery();
-//		ResultSetMetaData rsmd = rs.getMetaData();// 得到结果集列的属性
-//		int count = rsmd.getColumnCount();// 得到记录有多少列
-//		while (rs.next()) {
-//
-//			HashMap<String, String> map = new HashMap<String, String>();
-//			for (int i = 1; i < count + 1; i++) {
-//				// 获取指定列的表目录名称
-//				String label = rsmd.getColumnLabel(i);
-//				// 以 Java 编程语言中 Object 的形式获取此 ResultSet 对象的当前行中指定列的值
-//				Object object = rs.getObject(i);
-//				// 把数据库中的字段名和值对应为一个map对象中的一个键值对
-//				map.put(label.toLowerCase(), String.valueOf(object));
-//				// System.out.println(map);
-//				// 把每条对象封装成的map对象放进list中
-//
-//			}
-//			list.add(map);
-//
-//		}
-//		System.out.println(list);
-//		return list;
-//	}
-
-	
 
 	public static void handleSqlPerson() throws Exception {
 
@@ -163,7 +91,6 @@ public class Register {
 		System.out.println(Constants.SIGN_UP_SUCCEED);
 	}
 
-	
 	public static void handleSqlDriver() throws Exception {
 
 		dao.doInsertDriver(new Driver(phone, mdpass, "123456",
@@ -171,77 +98,19 @@ public class Register {
 		System.out.println(Constants.SIGN_UP_SUCCEED);
 	}
 
-	public static void handleSqlFormTo() throws Exception{
+	public static void handleSqlFormTo() throws Exception {
 		dao.doInsertFromTo(new DriverCar(newcartypeid, phone));
 	}
-	
-	
-	
-	
-	
-//	public static void handleType(String filename, Map<String, List<Person>> map)
-//			throws IOException {
-//
-//		per.add(new Person(phone, mdpass, "123456789", retStrFormatNowDate, ip,
-//				type));
-//		String line = System.getProperty("line.separator");
-//		StringBuffer str = new StringBuffer();
-//		FileWriter fw = new FileWriter(filename, true);
-//		Set<String> keySet = map.keySet();
-//		for (Iterator<String> it = keySet.iterator(); it.hasNext();) {
-//			String key = it.next();
-//			List<Person> list = map.get(key);
-//			for (Iterator<Person> it2 = list.iterator(); it2.hasNext();) {
-//				Person pd = it2.next();
-//				str.append(
-//						pd.getNumber() + " : " + pd.getTime() + " : "
-//								+ pd.getPassword() + " : " + pd.getSalt()
-//								+ " : " + pd.getIp() + ":" + pd.getType())
-//						.append(line);
-//				System.out.println("注册完成");
-//			}
-//		}
-//		fw.write(str.toString());
-//		fw.close();
-//
-//	}
-//
-//	public static void handleType2(String filename,
-//			Map<String, List<Driver>> map) throws IOException {
-//
-//		per2.add(new Driver(phone, mdpass, "123456789", retStrFormatNowDate,
-//				ip, type, toaddress, ctype, model, price));
-//		String line = System.getProperty("line.separator");
-//		StringBuffer str = new StringBuffer();
-//		FileWriter fw = new FileWriter(filename, true);
-//		Set<String> keySet = map.keySet();
-//		for (Iterator<String> it = keySet.iterator(); it.hasNext();) {
-//			String key = it.next();
-//			List<Driver> list = map.get(key);
-//			for (Iterator<Driver> it2 = list.iterator(); it2.hasNext();) {
-//				Driver pd = it2.next();
-//				str.append(
-//						pd.getPhone() + " : " + pd.getTime() + " : "
-//								+ pd.getPassword() + " : " + pd.getSalt()
-//								+ " : " + pd.getIp() + ":" + pd.getType() + ":"
-//								+ pd.getToaddress()).append(line);
-//				System.out.println("注册完成");
-//			}
-//		}
-//		fw.write(str.toString());
-//		fw.close();
-//	}
 
-	// static CarManage car;
 	public static void inputInit() throws Exception {
 
 		System.out.println(Constants.INPUT_PHONE);
 		phone = sc.next();
 
-		// while (!StringUtils.isMobile(phone)) {
-		// System.out.println("请输入有效的手机号码");
-		// phone = sc.next();
-		// }
+		while (!StringUtils.isMobile(phone)) {
+			System.out.println("请输入有效的手机号码");
+			phone = sc.next();
+		}
 
 		System.out.println(Constants.INPUT_PASSWORD);
 		pass = sc.next();
@@ -249,17 +118,11 @@ public class Register {
 
 		type = sc.next();
 
-		if (type.equals("车主")) {//如果是车主，进行可以到达的目的地选择
+		if (type.equals("车主")) {// 如果是车主，进行可以到达的目的地选择
 			System.out.println(Constants.IMPUT_TO_ADDRESS);
-			
-//			addre.readTxtFile("D:/beijing1.txt");
-//			addre.trip();
-//			toaddress = addre.startAddress;
-			
 			carSelectFromTolist = ReadFileUtils.readAddressMysqlFile();
 			trip();
-			
-			
+
 		}
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
@@ -274,13 +137,13 @@ public class Register {
 	}
 
 	static List<HashMap<String, String>> carSelectFromTolist;
-	
+
 	public static void trip() throws Exception {
 
 		String keylike = null;
 		Map<String, Object> emap = new ConcurrentHashMap<String, Object>();
 		List result = new ArrayList();
-		//System.out.println(Constants.IMPUT_FROM_ADDRESS);
+		// System.out.println(Constants.IMPUT_FROM_ADDRESS);
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
 		keylike = br.readLine();
@@ -306,6 +169,7 @@ public class Register {
 		toaddress = init();
 
 	}
+
 	public static String init() throws Exception {
 		String key = null;
 		Map<String, String> emp = new HashMap<String, String>();
@@ -317,18 +181,14 @@ public class Register {
 			if (emp.containsValue(key)) {
 				System.out.println(carSelectFromTolist.get(i));
 				HashMap locations = carSelectFromTolist.get(i);
-				//System.out.println(locations.get("location"));//文件为大写，数据库为小写
+				// System.out.println(locations.get("location"));//文件为大写，数据库为小写
 				return (String) locations.get("location");
 			}
 		}
 		return "";
 
 	}
-	
-	
-	
-	
-	
+
 	public static boolean isInteger(String value) {
 		try {
 			Integer.parseInt(value);
@@ -344,20 +204,12 @@ public class Register {
 		phone = sc.next();
 		System.out.println(Constants.INPUT_PASSWORD);
 		String pass = sc.next();
-		String mdpass = MD5Utils.md5Encode(pass + "123456") ;
+		String mdpass = MD5Utils.md5Encode(pass + "123456");
 		for (int i = 0; i < list.size(); i++) {
 			HashMap values = list.get(i);
-			// Iterator<String> itera = list.get(i).keySet().iterator();
-			// Iterator<String> iterb = list.get(i).values().iterator();
 			String phonedb = (String) values.get("phone");
-			// System.out.println(phonedb);
 			String passdb = (String) values.get("pass");
-			// System.out.println(passdb);
 			usertype = (String) values.get("type");
-			// while (itera.hasNext() && iterb.hasNext()) {
-			// String temp = (String) iterb.next();
-			// System.out.println(phonedb);
-			// System.out.println(passdb);
 			if ((phonedb.indexOf(phone) != -1)
 					&& ((passdb.indexOf(mdpass)) != -1)) {
 				System.out.println("登录成功");
@@ -371,8 +223,8 @@ public class Register {
 		} else {
 			new CarManage().Main2();
 			newcartypeid = carmange.typeid;
-			//String filename3 = "D:\\drivercar.txt";
-			//handleType3(filename3, map3);
+			// String filename3 = "D:\\drivercar.txt";
+			// handleType3(filename3, map3);
 			handleSqlFormTo();
 		}
 	}
@@ -472,7 +324,7 @@ public class Register {
 		if (null == netAddress) {
 			return null;
 		}
-		String ip = netAddress.getHostAddress(); 
+		String ip = netAddress.getHostAddress();
 		return ip;
 	}
 

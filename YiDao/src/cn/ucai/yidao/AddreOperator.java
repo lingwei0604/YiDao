@@ -37,18 +37,13 @@ public class AddreOperator {
 	static String endAddress;
 	static List<HashMap<String, String>> list;
 	static HashMap<String, String> map;
+	static List<HashMap<String, String>> newCarlist;
+	static HashMap<String, String> newCarmap;
 	static Scanner sc = new Scanner(System.in);
 
-	
 	public static void Main() throws Exception {
 
-		//从文本文件读取数据
-		//String filePath = "D:/beijing1.txt";
-		//list = ReadFileUtils.readTxtFile(filePath);
-		
-		//从数据库读取文件
 		list = ReadFileUtils.readAddressMysqlFile();
-		//System.out.println(list);
 		Menu();
 
 	}
@@ -67,7 +62,6 @@ public class AddreOperator {
 			try {
 				str = br.readLine();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (isInteger(str)) {
@@ -91,12 +85,9 @@ public class AddreOperator {
 				break;
 			case 4:
 				checkBy();
-				// init();
 				break;
 			case 5:
-
-				// map.clear();
-				// System.exit(0);
+				System.exit(0);
 				break;
 			default:
 				System.out.println("操作有误，请重新输入！");
@@ -142,7 +133,7 @@ public class AddreOperator {
 				String temp = (String) iterb.next();
 				// 找出键值对，值以key开头的键值对，并遍历
 				if (temp.startsWith(keylike)) {
-					//System.out.println(itera.next() + "  " + list.get(i));
+					// System.out.println(itera.next() + "  " + list.get(i));
 					System.out.println(list.get(i));
 				}
 
@@ -152,10 +143,6 @@ public class AddreOperator {
 		endAddress = init(true);
 		merge();
 
-	}
-
-	public static void finish() {
-		System.out.println("行程发布成功大约相距" + Math.random() * 10 + "公里");
 	}
 
 	public static void check() throws IOException {
@@ -211,7 +198,7 @@ public class AddreOperator {
 				String temp = (String) iterb.next();
 				// 找出键值对，值以key开头的键值对，并遍历
 				if (temp.startsWith(keylike)) {
-					//System.out.println(itera.next() + "  " + list.get(i));
+					// System.out.println(itera.next() + "  " + list.get(i));
 					System.out.println(list.get(i));
 				}
 
@@ -232,11 +219,11 @@ public class AddreOperator {
 			emp = (HashMap) list.get(i);
 
 			if (emp.containsValue(key)) {
-				//System.out.println(list.get(i));
+				// System.out.println(list.get(i));
 				HashMap locations = list.get(i);
-				System.out.println("您已选择的地点为："+locations.get("location"));//文件为大写，数据库为小写
+				System.out.println("您已选择的地点为：" + locations.get("location"));// 文件为大写，数据库为小写
 				if (needSave) {
-					//saveOutAddaress();
+					// saveOutAddaress();
 					handleSqlJourney();
 				}
 				System.out.println(Constants.NEXT_STEP);
@@ -246,110 +233,27 @@ public class AddreOperator {
 		return "";
 
 	}
-	
+
 	static DBDao da = new DBDao();
+
 	public static void handleSqlJourney() throws Exception {
 
 		Date nowTime = new Date(System.currentTimeMillis());
 		SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		String retStrFormatNowDate = sdFormatter.format(nowTime);
-		da.doInsertJourney(new OutAddress(startAddress, endAddress, retStrFormatNowDate));
+		da.doInsertJourney(new OutAddress(startAddress, endAddress,
+				retStrFormatNowDate));
 		System.out.println(Constants.SAVE_SUCCEED);
 	}
-	
-	public static void saveOutAddaress() {
-		Map<String, List<OutAddress>> map = new HashMap<String, List<OutAddress>>();
 
-		List<OutAddress> per = new ArrayList<OutAddress>();
-		map.put("p", per);
-		Date nowTime = new Date(System.currentTimeMillis());
-		SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd");
-		String retStrFormatNowDate = sdFormatter.format(nowTime);
-		per.add(new OutAddress(startAddress, endAddress, retStrFormatNowDate));
-
-		try {
-
-			String line = System.getProperty("line.separator");
-			StringBuffer str = new StringBuffer();
-			FileWriter fw = new FileWriter("D:\\2.txt", true);
-
-			Set<String> keySet = map.keySet();
-			for (Iterator<String> it = keySet.iterator(); it.hasNext();) {
-				String key = it.next();
-				List<OutAddress> list = map.get(key);
-				for (Iterator<OutAddress> it2 = list.iterator(); it2.hasNext();) {
-					OutAddress address = it2.next();
-					str.append(
-							address.getStartaddress() + " : "
-									+ address.getEndaddress()).append(line);
-					System.out.println("保存完成");
-				}
-			}
-			fw.write(str.toString());
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 	static CarManage carmange = new CarManage();
 
 	public static void merge() throws InterruptedException, SQLException {
-		//String filename1 = "D:/3.txt";
+		// String filename1 = "D:/3.txt";
 		boolean bool = false;
 		// 定义存储读取到的数据记录的集合
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		list = ReadFileUtils.readDriverMysqlFile();
-//		try {
-//
-//			String encoding = "GB2312";
-//			File file = new File(filename1);
-//			// 判断文件是否存在
-//			if (file.isFile() && file.exists()) {
-//				// 考虑到编码格式
-//				InputStreamReader read = new InputStreamReader(
-//						new FileInputStream(file), encoding);
-//				BufferedReader bufferedReader = new BufferedReader(read);
-//				String lineTxt = null;
-//				// 记录读取的数据文件的行数
-//				int count = 0;
-//				// 定义字段的数组
-//				String[] fields = null;
-//				// 定义每条记录取出的字段值数组
-//				String[] fieldValue = null;
-//				// 定义Map集合
-//				map = new HashMap<String, String>();
-//				while ((lineTxt = bufferedReader.readLine()) != null) {
-//
-//					map = new HashMap<String, String>();
-//					if (count == 0) {
-//						fields = lineTxt.split("\\:");
-//
-//					} else {
-//						fieldValue = lineTxt.split("\\:");
-//						for (int i = 0; i < fields.length; i++) {
-//							for (int j = 0; j < fieldValue.length; j++) {
-//								if (i == j) {
-//									map.put(fields[i], fieldValue[j]);
-//
-//								}
-//							}
-//						}
-//						// 将读取的每一行的记录存入到list集合中
-//						list.add(map);
-//					}
-//
-//					count++;
-//				}
-//				read.close();
-//			} else {
-//				System.out.println("找不到指定的文件");
-//			}
-//		} catch (Exception e) {
-//			System.out.println("读取文件内容出错");
-//			e.printStackTrace();
-//		}
 		for (int i = 0; i < list.size(); i++) {
 			HashMap values = list.get(i);
 			String addressdb = (String) values.get("address");
@@ -363,34 +267,24 @@ public class AddreOperator {
 				System.out.println("匹配成功");
 				System.out.println("车主的手机号是:" + values.get("phone"));// 拿到司机的手机号，得到司机的车子，输出车子的信息。
 				String carphone = (String) values.get("phone");
-				//String filenamecar = "D:/drivercar.txt";
-				//readDriverCarFile(filenamecar);
-			    newCarlist = ReadFileUtils.readDriverCarMysqlFile();
+				newCarlist = ReadFileUtils.readDriverCarMysqlFile();
 				for (int j = 0; j < newCarlist.size(); j++) {
 					HashMap valuescar = newCarlist.get(j);
 
 					System.out.println(valuescar);
 					String newcarphone = (String) valuescar.get("usercarid"); // 已经输出01
-					System.out.println("为您匹配到的车子编号："+newcarphone);
-					// if(newcarphone.indexOf(carphone)>-1){
-					//String filePathCar = "D:/car.txt";
-					//CarManage carmanage = new CarManage();
-					//carmanage.readTxtFile(filePathCar);
+					System.out.println("为您匹配到的车子编号：" + newcarphone);
 					finalcarlist = ReadFileUtils.readCarMysqlFile();
-					//System.out.println(finalcarlist);
 					System.out.println("请输入您选择的车子编号");
-				    finalCar();
-					
-					//Thread.sleep(5000);
-					//String bprice = carmanage.baseprice;
-					System.out.println("您本次出行所乘坐的车子起步价为："+baseprice);
-					System.out.println("本次出行花费了"+Math.random()*10  * (Integer.parseInt(baseprice)));
-					// }
+					finalCar();
+
+					System.out.println("您本次出行所乘坐的车子起步价为：" + baseprice);
+					System.out.println("本次出行花费了" + Math.random() * 10
+							* (Integer.parseInt(baseprice)));
 					break;
 
 				}
 
-				
 				bool = true;
 				System.out.println(Constants.SUCCESS_ARRIVED_TIP);
 				break;
@@ -401,8 +295,10 @@ public class AddreOperator {
 		}
 
 	}
+
 	static String baseprice;
 	static List<HashMap<String, String>> finalcarlist;
+
 	public static void finalCar() {
 		String key = null;
 		Map<String, String> finalmp = new HashMap<String, String>();
@@ -412,12 +308,12 @@ public class AddreOperator {
 			finalmp = (HashMap) finalcarlist.get(i);
 
 			if (finalmp.containsValue(key)) {
-				//System.out.println(finalcarlist.get(i));
-				//System.out.println(finalcarlist.get(i).values());
+				// System.out.println(finalcarlist.get(i));
+				// System.out.println(finalcarlist.get(i).values());
 				HashMap carlocations = finalcarlist.get(i);
 				String cartypeid = (String) carlocations.get("subtype");
 				String typeid = (String) carlocations.get("typeid");
-				//System.out.println(typeid);
+				// System.out.println(typeid);
 				baseprice = (String) carlocations.get("baseprice");
 				String timeprice = (String) carlocations.get("timeprice");
 				// System.out.println(locations.get("typeid"));
@@ -428,119 +324,4 @@ public class AddreOperator {
 
 	}
 
-	static List<HashMap<String, String>> newCarlist;
-	static HashMap<String, String> newCarmap;
-
-	public static List<HashMap<String, String>> readDriverCarFile(
-			String filePath) {
-
-		// 定义存储读取到的数据记录的集合
-		newCarlist = new ArrayList<HashMap<String, String>>();
-		try {
-
-			String encoding = "GB2312";
-			File file = new File(filePath);
-			// 判断文件是否存在
-			if (file.isFile() && file.exists()) {
-				// 考虑到编码格式
-				InputStreamReader read = new InputStreamReader(
-						new FileInputStream(file), encoding);
-				BufferedReader bufferedReader = new BufferedReader(read);
-				String lineTxt = null;
-				// 记录读取的数据文件的行数
-				int count = 0;
-				// 定义字段的数组
-				String[] fields = null;
-				// 定义每条记录取出的字段值数组
-				String[] fieldValue = null;
-				// 定义Map集合
-				newCarmap = new HashMap<String, String>();
-				while ((lineTxt = bufferedReader.readLine()) != null) {
-
-					newCarmap = new HashMap<String, String>();
-					if (count == 0) {
-						fields = lineTxt.split("\\:");
-
-					} else {
-						fieldValue = lineTxt.split("\\:");
-						for (int i = 0; i < fields.length; i++) {
-							for (int j = 0; j < fieldValue.length; j++) {
-								if (i == j) {
-									newCarmap.put(fields[i], fieldValue[j]);
-
-								}
-							}
-						}
-						// 将读取的每一行的记录存入到list集合中
-						newCarlist.add(newCarmap);
-					}
-
-					count++;
-				}
-				read.close();
-			} else {
-				System.out.println("找不到指定的文件");
-			}
-		} catch (Exception e) {
-			System.out.println("读取文件内容出错");
-			e.printStackTrace();
-		}
-		return newCarlist;
-	}
-
-	public static List<HashMap<String, String>> readTxtFile(String filePath) {
-
-		// 定义存储读取到的数据记录的集合
-		list = new ArrayList<HashMap<String, String>>();
-		try {
-
-			String encoding = "GB2312";
-			File file = new File(filePath);
-			// 判断文件是否存在
-			if (file.isFile() && file.exists()) {
-				// 考虑到编码格式
-				InputStreamReader read = new InputStreamReader(
-						new FileInputStream(file), encoding);
-				BufferedReader bufferedReader = new BufferedReader(read);
-				String lineTxt = null;
-				// 记录读取的数据文件的行数
-				int count = 0;
-				// 定义字段的数组
-				String[] fields = null;
-				// 定义每条记录取出的字段值数组
-				String[] fieldValue = null;
-				// 定义Map集合
-				map = new HashMap<String, String>();
-				while ((lineTxt = bufferedReader.readLine()) != null) {
-
-					map = new HashMap<String, String>();
-					if (count == 0) {
-						fields = lineTxt.split("\\-");
-
-					} else {
-						fieldValue = lineTxt.split("\\-");
-						for (int i = 0; i < fields.length; i++) {
-							for (int j = 0; j < fieldValue.length; j++) {
-								if (i == j) {
-									map.put(fields[i], fieldValue[j]);
-
-								}
-							}
-						}
-						// 将读取的每一行的记录存入到list集合中
-						list.add(map);
-					}
-
-					count++;
-				}
-				read.close();
-			} else {
-				System.out.println("找不到指定的文件");
-			}
-		} catch (Exception e) {
-			System.out.println("读取文件内容出错");
-			e.printStackTrace();
-		}
-		return list;
-	}
 }

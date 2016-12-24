@@ -8,12 +8,9 @@ public class Driver {
 	private String ip;
 	private String toaddress;
 	private String salt;
-	// CarManage car;
-
 	private String carmodel;
 	private String typemodel;
-
-	String price;
+	private String price;
 
 	public String getToaddress() {
 		return toaddress;

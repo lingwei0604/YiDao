@@ -28,16 +28,16 @@ public class CarManage {
 	static List<HashMap<String, String>> carlist;
 	static HashMap<String, String> carmap;
 
-	
 	private static Connection conn = DBUtils.getConnection();
 	private static PreparedStatement ps = null;
 	private ResultSet rs = null;
+
 	public static void Main2() throws IOException, SQLException {
 
-		//从文本文件读取数据
-		//String filePath = "D:/car.txt";
-		//carlist = readTxtFile(filePath);
-		//从数据库读取数据
+		// 从文本文件读取数据
+		// String filePath = "D:/car.txt";
+		// carlist = readTxtFile(filePath);
+		// 从数据库读取数据
 		carlist = ReadFileUtils.readCarMysqlFile();
 		selectCarType();
 
@@ -76,6 +76,7 @@ public class CarManage {
 	}
 
 	static String baseprice;
+
 	public static void initCar() {
 		String key = null;
 		Map<String, String> caremp = new HashMap<String, String>();
@@ -101,62 +102,6 @@ public class CarManage {
 
 	}
 
-	public static List<HashMap<String, String>> readTxtFile(String filePath) {
-
-		// 定义存储读取到的数据记录的集合
-		carlist = new ArrayList<HashMap<String, String>>();
-		try {
-
-			String encoding = "GB2312";
-			File file = new File(filePath);
-			// 判断文件是否存在
-			if (file.isFile() && file.exists()) {
-				// 考虑到编码格式
-				InputStreamReader read = new InputStreamReader(
-						new FileInputStream(file), encoding);
-				BufferedReader bufferedReader = new BufferedReader(read);
-				String lineTxt = null;
-				// 记录读取的数据文件的行数
-				int count = 0;
-				// 定义字段的数组
-				String[] fields = null;
-				// 定义每条记录取出的字段值数组
-				String[] fieldValue = null;
-				// 定义Map集合
-				carmap = new HashMap<String, String>();
-				while ((lineTxt = bufferedReader.readLine()) != null) {
-
-					carmap = new HashMap<String, String>();
-					if (count == 0) {
-						fields = lineTxt.split("\\:");
-
-					} else {
-						fieldValue = lineTxt.split("\\:");
-						for (int i = 0; i < fields.length; i++) {
-							for (int j = 0; j < fieldValue.length; j++) {
-								if (i == j) {
-									carmap.put(fields[i], fieldValue[j]);
-
-								}
-							}
-						}
-						// 将读取的每一行的记录存入到list集合中
-						carlist.add(carmap);
-					}
-
-					count++;
-				}
-				read.close();
-			} else {
-				System.out.println("找不到指定的文件");
-			}
-		} catch (Exception e) {
-			System.out.println("读取文件内容出错");
-			e.printStackTrace();
-		}
-		return carlist;
-	}
-	
 	public static List<HashMap<String, String>> readCarMysqlFile()
 			throws SQLException {
 		// 定义存储读取到的数据记录的集合
@@ -166,7 +111,7 @@ public class CarManage {
 		ResultSet rs = ps.executeQuery();
 		ResultSetMetaData rsmd = rs.getMetaData();// 得到结果集列的属性
 		int count = rsmd.getColumnCount();// 得到记录有多少列
-		
+
 		while (rs.next()) {
 
 			HashMap<String, String> map = new HashMap<String, String>();
@@ -187,6 +132,5 @@ public class CarManage {
 		System.out.println(carlist);
 		return carlist;
 	}
-	
-	
+
 }
