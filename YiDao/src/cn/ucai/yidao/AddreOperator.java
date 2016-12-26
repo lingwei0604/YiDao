@@ -35,14 +35,10 @@ public class AddreOperator {
 
 	static String startAddress;
 	static String endAddress;
-        static String baseprice;
 	static List<HashMap<String, String>> list;
 	static HashMap<String, String> map;
 	static List<HashMap<String, String>> newCarlist;
 	static HashMap<String, String> newCarmap;
-	static DBDao da = new DBDao();
-	static List<HashMap<String, String>> finalcarlist;
-	static CarManage carmange = new CarManage();
 	static Scanner sc = new Scanner(System.in);
 
 	public static void Main() throws Exception {
@@ -54,7 +50,7 @@ public class AddreOperator {
 
 	public static void Menu() throws IOException, Exception {
 
-		int temp = 0;
+		int temp=0;
 		while (true) {
 			System.out
 					.println("[0]=主菜单  [1]=所有查询  [2]=打车  [3]=菜单  [4]=模糊查询  [5]=退出");
@@ -83,6 +79,7 @@ public class AddreOperator {
 			case 2:
 				trip();
 				select();
+				//handleSqlJourney();
 				break;
 			case 3:
 				display();
@@ -145,15 +142,13 @@ public class AddreOperator {
 		}
 		System.out.println(Constants.IMPUT_ID);
 		endAddress = init(true);
+		System.out.println(endAddress);
 		merge();
 
 	}
 
 	public static void check() throws IOException {
 		String key = "";
-		InputStreamReader isr = new InputStreamReader(System.in);
-		BufferedReader br = new BufferedReader(isr);
-		// System.out.println(list);
 		System.out.print("请输入所查询的区域遍号(1-" + list.size() + ")：");
 		key = sc.next();
 		for (int i = 0; i < list.size(); i++) {
@@ -184,7 +179,6 @@ public class AddreOperator {
 
 		String keylike = null;
 		Map<String, Object> emap = new ConcurrentHashMap<String, Object>();
-		List result = new ArrayList();
 		System.out.println(Constants.IMPUT_FROM_ADDRESS);
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
@@ -211,6 +205,7 @@ public class AddreOperator {
 
 		System.out.println(Constants.IMPUT_ID);
 		startAddress = init(false);
+		System.out.println(startAddress);
 
 	}
 
@@ -220,38 +215,44 @@ public class AddreOperator {
 		Scanner sc = new Scanner(System.in);
 		key = sc.next();
 		for (int i = 0; i < list.size(); i++) {
-			emp = (HashMap) list.get(i);
+			emp = (HashMap<String, String>) list.get(i);
 
 			if (emp.containsValue(key)) {
 				// System.out.println(list.get(i));
-				HashMap locations = list.get(i);
-				System.out.println("您已选择的地点为：" + locations.get("location"));// 文件为大写，数据库为小写
+				HashMap<?, ?> locations = list.get(i);//这匹配的是接单司机的地址。
+				endAddress = (String) locations.get("address");
+				System.out.println(endAddress);
+				System.out.println("您已选择的地点为：" + locations.get("address"));// 文件为大写，数据库为小写
 				if (needSave) {
 					// saveOutAddaress();
 					handleSqlJourney();
 				}
 				System.out.println(Constants.NEXT_STEP);
-				return (String) locations.get("location");
+				return (String) locations.get("address");
 			}
 		}
 		return "";
 
 	}
 
-	
+	static DBDao da = new DBDao();
 
+	//行程表的插入
 	public static void handleSqlJourney() throws Exception {
 
 		Date nowTime = new Date(System.currentTimeMillis());
 		SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		String retStrFormatNowDate = sdFormatter.format(nowTime);
-		da.doInsertJourney(new OutAddress(startAddress, endAddress,
-				retStrFormatNowDate));
+		DBDao.doInsertJourney(new OutAddress(1,newcarphone,startAddress, endAddress,
+				totalprice));
 		System.out.println(Constants.SAVE_SUCCEED);
 	}
 
+	static CarManage carmange = new CarManage();
+	static int newcarphone;
+	static int totalprice;
 	
-
+	
 	public static void merge() throws InterruptedException, SQLException {
 		// String filename1 = "D:/3.txt";
 		boolean bool = false;
@@ -259,32 +260,32 @@ public class AddreOperator {
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		list = ReadFileUtils.readDriverMysqlFile();
 		for (int i = 0; i < list.size(); i++) {
-			HashMap values = list.get(i);
+			HashMap<?, ?> values = list.get(i);
 			String addressdb = (String) values.get("address");
-			String startprice = (String) values.get("car");
+			//String startprice = (String) values.get("car");
 
 			// HashMap valuesCar = newCarlist.get(i);
-			String phonedb = (String) values.get("phone");
+			//String phonedb = (String) values.get("phone");
 
 			if (addressdb.indexOf(endAddress) > -1) {
 
 				System.out.println("匹配成功");
 				System.out.println("车主的手机号是:" + values.get("phone"));// 拿到司机的手机号，得到司机的车子，输出车子的信息。
-				String carphone = (String) values.get("phone");
+				//String carphone = (String) values.get("phone");
 				newCarlist = ReadFileUtils.readDriverCarMysqlFile();
-				for (int j = 0; j < newCarlist.size(); j++) {
+				for (int j = 0; j < newCarlist.size();) {
 					HashMap valuescar = newCarlist.get(j);
 
 					System.out.println(valuescar);
-					String newcarphone = (String) valuescar.get("usercarid"); // 已经输出01
+					newcarphone = Integer.valueOf((String) valuescar.get("uid")); // 已经输出01
 					System.out.println("为您匹配到的车子编号：" + newcarphone);
 					finalcarlist = ReadFileUtils.readCarMysqlFile();
 					System.out.println("请输入您选择的车子编号");
 					finalCar();
 
 					System.out.println("您本次出行所乘坐的车子起步价为：" + baseprice);
-					System.out.println("本次出行花费了" + Math.random() * 10
-							* (Integer.parseInt(baseprice)));
+					totalprice = 5*(Integer.parseInt(baseprice));
+					System.out.println("本次出行消费了" + totalprice);
 					break;
 
 				}
@@ -300,7 +301,8 @@ public class AddreOperator {
 
 	}
 
-	
+	static String baseprice;
+	static List<HashMap<String, String>> finalcarlist;
 
 	public static void finalCar() {
 		String key = null;

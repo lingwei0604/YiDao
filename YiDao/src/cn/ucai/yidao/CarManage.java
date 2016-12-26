@@ -25,14 +25,12 @@ import cn.ucai.util.ReadFileUtils;
 public class CarManage {
 
 	static String typeid = null;
-	static String baseprice = null;
 	static List<HashMap<String, String>> carlist;
 	static HashMap<String, String> carmap;
 
 	private static Connection conn = DBUtils.getConnection();
 	private static PreparedStatement ps = null;
-	private ResultSet rs = null;
-
+	
 	public static void Main2() throws IOException, SQLException {
 
 		// 从文本文件读取数据
@@ -76,7 +74,7 @@ public class CarManage {
 		initCar();
 	}
 
-	
+	static String baseprice;
 
 	public static void initCar() {
 		String key = null;
@@ -91,7 +89,7 @@ public class CarManage {
 				System.out.println(carlist.get(i).values());
 				HashMap carlocations = carlist.get(i);
 				String cartypeid = (String) carlocations.get("subtype");
-				typeid = (String) carlocations.get("typeid");
+				typeid = (String) carlocations.get("car_id");
 				System.out.println(typeid);
 				baseprice = (String) carlocations.get("baseprice");
 				String timeprice = (String) carlocations.get("timeprice");

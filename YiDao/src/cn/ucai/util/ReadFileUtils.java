@@ -27,7 +27,7 @@ public class ReadFileUtils {
 			throws SQLException {
 		// 定义存储读取到的数据记录的集合
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-		String sql = "select * from address";
+		String sql = "select * from yd_address";
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		ResultSetMetaData rsmd = rs.getMetaData();// 得到结果集列的属性
@@ -55,7 +55,7 @@ public class ReadFileUtils {
 			throws SQLException {
 		// 定义存储读取到的数据记录的集合
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-		String sql = "select * from person";
+		String sql = "select * from yd_person";
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		ResultSetMetaData rsmd = rs.getMetaData();// 得到结果集列的属性
@@ -113,7 +113,7 @@ public class ReadFileUtils {
 			throws SQLException {
 		// 定义存储读取到的数据记录的集合
 		List<HashMap<String, String>> list  = new ArrayList<HashMap<String, String>>();
-		String sql = "select * from drivercar";
+		String sql = "select * from yd_driver_dist";
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		ResultSetMetaData rsmd = rs.getMetaData();// 得到结果集列的属性
@@ -143,7 +143,7 @@ public class ReadFileUtils {
 			throws SQLException {
 		// 定义存储读取到的数据记录的集合
 		List<HashMap<String, String>> list  = new ArrayList<HashMap<String, String>>();
-		String sql = "select * from car ";
+		String sql = "select * from yd_car ";
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		ResultSetMetaData rsmd = rs.getMetaData();// 得到结果集列的属性

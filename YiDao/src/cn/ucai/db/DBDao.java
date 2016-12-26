@@ -28,14 +28,15 @@ public class DBDao {
 	// 插入一条记录
 	public static boolean doInsertPerson(Person per) throws Exception {
 		boolean flag = false;
-		String sql = "insert into person values(?,?,?,?,?,?)";
+		String sql = "insert into yd_person values(?,?,?,?,?,?,?)";
 		ps = conn.prepareStatement(sql);
-		ps.setString(1, per.getNumber());
-		ps.setString(2, per.getTime());
-		ps.setString(3, per.getPassword());
-		ps.setString(4, per.getSalt());
-		ps.setString(5, per.getIp());
-		ps.setString(6, per.getType());
+		ps.setLong(1, per.getUid());
+		ps.setString(2, per.getNumber());
+		ps.setString(3, per.getTime());
+		ps.setString(4, per.getPassword());
+		ps.setString(5, per.getSalt());
+		ps.setString(6, per.getIp());
+		ps.setString(7, per.getType());
 		if (ps.executeUpdate() > 0) {
 			flag = true;
 		}
@@ -63,10 +64,10 @@ public class DBDao {
 
 	public static boolean doInsertFromTo(DriverCar drivercar) throws Exception {
 		boolean flag = false;
-		String sql = "insert into drivercar values(?,?)";
+		String sql = "insert into yd_driver_dist values(?,?)";
 		ps = conn.prepareStatement(sql);
-		ps.setString(1, drivercar.getCartype());
-		ps.setString(2, drivercar.getUserid());
+		ps.setString(1, drivercar.getUserid());
+		ps.setString(2, drivercar.getCartype());
 		if (ps.executeUpdate() > 0) {
 			flag = true;
 		}
@@ -74,11 +75,13 @@ public class DBDao {
 	}
 	public static boolean doInsertJourney(OutAddress outaddress) throws Exception {
 		boolean flag = false;
-		String sql = "insert into journey values(?,?,?)";
+		String sql = "insert into yd_journey values(?,?,?,?,?)";
 		ps = conn.prepareStatement(sql);
-		ps.setString(1, outaddress.getStartaddress());
-		ps.setString(2, outaddress.getEndaddress());
-		ps.setString(3, outaddress.getTime());
+		ps.setLong(1, outaddress.getUid());
+		ps.setLong(2, outaddress.getDrivercarid());
+		ps.setString(3, outaddress.getStartaddress());
+		ps.setString(4, outaddress.getEndaddress());
+		ps.setFloat(5, outaddress.getTotalprice());
 		if (ps.executeUpdate() > 0) {
 			flag = true;
 		}
@@ -119,7 +122,7 @@ public class DBDao {
 
 		// 定义存储读取到的数据记录的集合
 		list = new ArrayList<HashMap<String, String>>();
-		String sql = "select * from person ";
+		String sql = "select * from yd_person ";
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		ResultSetMetaData rsmd = rs.getMetaData();

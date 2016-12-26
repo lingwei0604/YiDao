@@ -2,12 +2,33 @@ package cn.ucai.yidao;
 
 public class Person {
 
+	private int uid;
 	private String number;
 	private String password;
 	private String salt;
 	private String time;
 	private String ip;
 	private String type;
+
+	public int getUid() {
+		return uid;
+	}
+
+	public Person(int uid, String number, String password, String salt,
+			String time, String ip, String type) {
+		super();
+		this.uid = uid;
+		this.number = number;
+		this.password = password;
+		this.salt = salt;
+		this.time = time;
+		this.ip = ip;
+		this.type = type;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
 
 	public String getType() {
 		return type;

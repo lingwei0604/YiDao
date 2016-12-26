@@ -36,15 +36,10 @@ public class Register {
 	static String phone, pass, type, mdpass, toaddress, retStrFormatNowDate,
 			ip, salt;
 	static String ctype, model, price;
-	private static Connection conn = DBUtils.getConnection();
-	private static PreparedStatement ps = null;
-	private ResultSet rs = null;
-
 	static List<Person> per;
 	static List<Driver> per2;
 	static List<DriverCar> drivercar;
 	static List<HashMap<String, String>> list;
-	static List<HashMap<String, String>> carSelectFromTolist;
 	static Map<String, List<DriverCar>> map3;
 	static Scanner sc = new Scanner(System.in);
 
@@ -70,7 +65,7 @@ public class Register {
 
 		inputInit();
 
-		if (type.equals("chengke")) {
+		if (type.equals("0")) {
 			// 从数据库中写入、读取数据
 			handleSqlPerson();
 			list = ReadFileUtils.readPersonMysqlFile();
@@ -86,21 +81,21 @@ public class Register {
 	}
 
 	public static void handleSqlPerson() throws Exception {
-
-		dao.doInsertPerson(new Person(phone, mdpass, "123456",
+        int uid = (int) (Math.random()*100); 
+		DBDao.doInsertPerson(new Person(uid,phone, mdpass, "123456",
 				retStrFormatNowDate, ip, type));
 		System.out.println(Constants.SIGN_UP_SUCCEED);
 	}
 
 	public static void handleSqlDriver() throws Exception {
 
-		dao.doInsertDriver(new Driver(phone, mdpass, "123456",
+		DBDao.doInsertDriver(new Driver(phone, mdpass, "123456",
 				retStrFormatNowDate, type, ip, toaddress));
 		System.out.println(Constants.SIGN_UP_SUCCEED);
 	}
 
 	public static void handleSqlFormTo() throws Exception {
-		dao.doInsertFromTo(new DriverCar(newcartypeid, phone));
+		DBDao.doInsertFromTo(new DriverCar(newcartypeid, phone));
 	}
 
 	public static void inputInit() throws Exception {
@@ -119,14 +114,13 @@ public class Register {
 
 		type = sc.next();
 
-		if (type.equals("车主")) {// 如果是车主，进行可以到达的目的地选择
+		if (type.equals("1")) {// 如果是车主，进行可以到达的目的地选择
 			System.out.println(Constants.IMPUT_TO_ADDRESS);
 			carSelectFromTolist = ReadFileUtils.readAddressMysqlFile();
 			trip();
 
 		}
 
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 		Date nowTime = new Date(System.currentTimeMillis());
 		SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		retStrFormatNowDate = sdFormatter.format(nowTime);
@@ -137,7 +131,7 @@ public class Register {
 		mdpass = MD5Utils.md5Encode(pass + "123456");
 	}
 
-	
+	static List<HashMap<String, String>> carSelectFromTolist;
 
 	public static void trip() throws Exception {
 
@@ -183,7 +177,7 @@ public class Register {
 				System.out.println(carSelectFromTolist.get(i));
 				HashMap locations = carSelectFromTolist.get(i);
 				// System.out.println(locations.get("location"));//文件为大写，数据库为小写
-				return (String) locations.get("location");
+				return (String) locations.get("address");
 			}
 		}
 		return "";
@@ -209,7 +203,7 @@ public class Register {
 		for (int i = 0; i < list.size(); i++) {
 			HashMap values = list.get(i);
 			String phonedb = (String) values.get("phone");
-			String passdb = (String) values.get("pass");
+			String passdb = (String) values.get("password");
 			usertype = (String) values.get("type");
 			if ((phonedb.indexOf(phone) != -1)
 					&& ((passdb.indexOf(mdpass)) != -1)) {
@@ -219,11 +213,13 @@ public class Register {
 
 		}
 
-		if (usertype.equals("chengke")) {
-			new AddreOperator().Main();
+		if (usertype.equals("0")) {
+			//new AddreOperator();
+			AddreOperator.Main();
 		} else {
-			new CarManage().Main2();
-			newcartypeid = carmange.typeid;
+			//new CarManage();
+			CarManage.Main2();
+			newcartypeid = CarManage.typeid;
 			// String filename3 = "D:\\drivercar.txt";
 			// handleType3(filename3, map3);
 			handleSqlFormTo();
