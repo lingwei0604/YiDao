@@ -1,4 +1,4 @@
-package cn.ucai.yidao;
+package cn.ucai.entity;
 
 public class Person {
 
@@ -12,6 +12,9 @@ public class Person {
 
 	public int getUid() {
 		return uid;
+	}
+	public Person(){
+		
 	}
 
 	public Person(int uid, String number, String password, String salt,

@@ -24,9 +24,9 @@ import cn.ucai.util.ReadFileUtils;
 
 public class CarManage {
 
-	static String typeid = null;
-	static List<HashMap<String, String>> carlist;
-	static HashMap<String, String> carmap;
+	static String typeId = null;
+	static List<HashMap<String, String>> carList;
+	static HashMap<String, String> carMap;
 
 	private static Connection conn = DBUtils.getConnection();
 	private static PreparedStatement ps = null;
@@ -37,34 +37,36 @@ public class CarManage {
 		// String filePath = "D:/car.txt";
 		// carlist = readTxtFile(filePath);
 		// 从数据库读取数据
-		carlist = ReadFileUtils.readCarMysqlFile();
+		String tabCar = "yd_car";
+		carList = ReadFileUtils.findAll(tabCar);
+		//carList = ReadFileUtils.readCarMysqlFile();
 		selectCarType();
 
 	}
 
 	public static void selectCarType() throws IOException {
 
-		String keylike = null;
-		Map<String, Object> caremap = new ConcurrentHashMap<String, Object>();
+		String keyLike = null;
+		Map<String, Object> careMap = new ConcurrentHashMap<String, Object>();
 		List carresult = new ArrayList();
 		System.out.println("请选择您的车型");
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
-		keylike = br.readLine();
+		keyLike = br.readLine();
 
-		for (int i = 0; i < carlist.size(); i++) {
-			caremap = (HashMap) carlist.get(i);
-			Iterator<String> itera = caremap.keySet().iterator();
-			Iterator<Object> iterb = caremap.values().iterator();
+		for (int i = 0; i < carList.size(); i++) {
+			careMap = (HashMap) carList.get(i);
+			Iterator<String> itera = careMap.keySet().iterator();
+			Iterator<Object> iterb = careMap.values().iterator();
 
 			while (itera.hasNext() && iterb.hasNext()) {
 
 				// 因为迭代器每次会移动一个位置，指针移动一位，用一个临时变量来保存每次的值
 				String cartemp = (String) iterb.next();
 				// 找出键值对，值以key开头的键值对，并遍历
-				if (cartemp.startsWith(keylike)) {
+				if (cartemp.startsWith(keyLike)) {
 					// System.out.println(itera.next() + "  " + carlist.get(i));
-					System.out.println(carlist.get(i));
+					System.out.println(carList.get(i));
 				}
 
 			}
@@ -74,27 +76,27 @@ public class CarManage {
 		initCar();
 	}
 
-	static String baseprice;
+	static String basePrice;
 
 	public static void initCar() {
 		String key = null;
 		Map<String, String> caremp = new HashMap<String, String>();
 		Scanner sc = new Scanner(System.in);
 		key = sc.next();
-		for (int i = 0; i < carlist.size(); i++) {
-			caremp = (HashMap) carlist.get(i);
+		for (int i = 0; i < carList.size(); i++) {
+			caremp = (HashMap) carList.get(i);
 
 			if (caremp.containsValue(key)) {
-				System.out.println(carlist.get(i));
-				System.out.println(carlist.get(i).values());
-				HashMap carlocations = carlist.get(i);
+				System.out.println(carList.get(i));
+				System.out.println(carList.get(i).values());
+				HashMap carlocations = carList.get(i);
 				String cartypeid = (String) carlocations.get("subtype");
-				typeid = (String) carlocations.get("car_id");
-				System.out.println(typeid);
-				baseprice = (String) carlocations.get("baseprice");
+				typeId = (String) carlocations.get("car_id");
+				System.out.println(typeId);
+				basePrice = (String) carlocations.get("baseprice");
 				String timeprice = (String) carlocations.get("timeprice");
 				// System.out.println(locations.get("typeid"));
-				System.out.println("您的车子是:" + cartypeid + "!起步价为：" + baseprice
+				System.out.println("您的车子是:" + cartypeid + "!起步价为：" + basePrice
 						+ "时长价为：" + timeprice);
 			}
 		}
@@ -104,7 +106,7 @@ public class CarManage {
 	public static List<HashMap<String, String>> readCarMysqlFile()
 			throws SQLException {
 		// 定义存储读取到的数据记录的集合
-		carlist = new ArrayList<HashMap<String, String>>();
+		carList = new ArrayList<HashMap<String, String>>();
 		String sql = "select * from car ";
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -125,11 +127,11 @@ public class CarManage {
 				// 把每条对象封装成的map对象放进list中
 
 			}
-			carlist.add(map);
+			carList.add(map);
 
 		}
-		System.out.println(carlist);
-		return carlist;
+		System.out.println(carList);
+		return carList;
 	}
 
 }

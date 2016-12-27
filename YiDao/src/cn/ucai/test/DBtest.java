@@ -1,6 +1,9 @@
-package cn.ucai.db;
+package cn.ucai.test;
 
 import java.sql.SQLException;
+
+import cn.ucai.db.DBDao;
+import cn.ucai.db.DBUtils;
 
 public class DBtest {
 

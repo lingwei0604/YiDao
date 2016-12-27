@@ -1,9 +1,12 @@
-package cn.ucai.yidao;
+package cn.ucai.entity;
 
 public class DriverCar {
 
 	private String userid;
 	private String cartype;
+	public DriverCar(){
+		
+	}
 	public DriverCar(String userid, String cartype) {
 		super();
 		this.userid = userid;

@@ -1,4 +1,4 @@
-package cn.ucai.yidao;
+package cn.ucai.entity;
 
 public class OutAddress {
 	private String startaddress;

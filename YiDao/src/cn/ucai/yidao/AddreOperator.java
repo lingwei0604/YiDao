@@ -1,12 +1,8 @@
 package cn.ucai.yidao;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.channels.SeekableByteChannel;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,16 +11,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.Map.Entry;
 import java.util.Scanner;
-import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import cn.ucai.db.DBDao;
+import cn.ucai.entity.OutAddress;
 import cn.ucai.util.Constants;
 import cn.ucai.util.ReadFileUtils;
 
@@ -35,27 +26,31 @@ public class AddreOperator {
 
 	static String startAddress;
 	static String endAddress;
-	static List<HashMap<String, String>> list;
+	static List<HashMap<String, String>> addrList;
 	static HashMap<String, String> map;
-	static List<HashMap<String, String>> newCarlist;
-	static HashMap<String, String> newCarmap;
+	static List<HashMap<String, String>> newCarList;
+	static HashMap<String, String> newCarMap;
 	static Scanner sc = new Scanner(System.in);
 
 	public static void Main() throws Exception {
 
-		list = ReadFileUtils.readAddressMysqlFile();
+		String tabAddress = "yd_address";
+		// addrList = ReadFileUtils.readAddressMysqlFile();
+		addrList = ReadFileUtils.findAll(tabAddress);
 		Menu();
 
 	}
 
+	public static final String SUCCESS_ARRIVED_TIP = "è€å¿ƒç­‰å¾…ï¼Œå¸æœºé©¬ä¸Šå°±åˆ°äº†";
+
 	public static void Menu() throws IOException, Exception {
 
-		int temp=0;
+		int temp = 0;
 		while (true) {
 			System.out
-					.println("[0]=Ö÷²Ëµ¥  [1]=ËùÓĞ²éÑ¯  [2]=´ò³µ  [3]=²Ëµ¥  [4]=Ä£ºı²éÑ¯  [5]=ÍË³ö");
+					.println("[0]=ä¸»èœå•  [1]=æ‰€æœ‰æŸ¥è¯¢  [2]=æ‰“è½¦  [3]=èœå•  [4]=æ¨¡ç³ŠæŸ¥è¯¢ [5]ç±»å‹é€‰æ‹© [6]=é€€å‡º");
 			System.out
-					.println("Welcome to YiDao£¬Please Input a Number(above)£º");
+					.println("Welcome to YiDaoï¼ŒPlease Input a Number(above)ï¼š");
 			InputStreamReader isr = new InputStreamReader(System.in);
 			BufferedReader br = new BufferedReader(isr);
 			String str = null;
@@ -67,7 +62,7 @@ public class AddreOperator {
 			if (isInteger(str)) {
 				temp = Integer.parseInt(str);
 			} else {
-				System.out.println("ÇëÊäÈëÖ÷Ä¿Â¼ÖĞµÄÓĞĞ§Êı×Ö");
+				System.out.println("è¯·è¾“å…¥ä¸»ç›®å½•ä¸­çš„æœ‰æ•ˆæ•°å­—");
 			}
 
 			switch (temp) {
@@ -79,7 +74,7 @@ public class AddreOperator {
 			case 2:
 				trip();
 				select();
-				//handleSqlJourney();
+				// handleSqlJourney();
 				break;
 			case 3:
 				display();
@@ -88,10 +83,14 @@ public class AddreOperator {
 				checkBy();
 				break;
 			case 5:
+				inputCarType();
+				break;
+			case 6:
+
 				System.exit(0);
 				break;
 			default:
-				System.out.println("²Ù×÷ÓĞÎó£¬ÇëÖØĞÂÊäÈë£¡");
+				System.out.println("æ“ä½œæœ‰è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼");
 			}
 		}
 	}
@@ -107,8 +106,8 @@ public class AddreOperator {
 
 	public static void display() {
 
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println("µÚ" + i + "Ìõ¼ÇÂ¼" + i + ":" + list.get(i));
+		for (int i = 0; i < addrList.size(); i++) {
+			System.out.println("ç¬¬" + i + "æ¡è®°å½•" + i + ":" + addrList.get(i));
 
 		}
 	}
@@ -122,20 +121,18 @@ public class AddreOperator {
 
 		keylike = sc.next();
 
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < addrList.size(); i++) {
 
-			emap = (HashMap) list.get(i);
+			emap = (HashMap) addrList.get(i);
 			Iterator<String> itera = emap.keySet().iterator();
 			Iterator<Object> iterb = emap.values().iterator();
 
 			while (itera.hasNext() && iterb.hasNext()) {
 
-				// ÒòÎªµü´úÆ÷Ã¿´Î»áÒÆ¶¯Ò»¸öÎ»ÖÃ£¬Ö¸ÕëÒÆ¶¯Ò»Î»£¬ÓÃÒ»¸öÁÙÊ±±äÁ¿À´±£´æÃ¿´ÎµÄÖµ
 				String temp = (String) iterb.next();
-				// ÕÒ³ö¼üÖµ¶Ô£¬ÖµÒÔkey¿ªÍ·µÄ¼üÖµ¶Ô£¬²¢±éÀú
 				if (temp.startsWith(keylike)) {
 					// System.out.println(itera.next() + "  " + list.get(i));
-					System.out.println(list.get(i));
+					System.out.println(addrList.get(i));
 				}
 
 			}
@@ -149,12 +146,12 @@ public class AddreOperator {
 
 	public static void check() throws IOException {
 		String key = "";
-		System.out.print("ÇëÊäÈëËù²éÑ¯µÄÇøÓò±éºÅ(1-" + list.size() + ")£º");
+		System.out.print("è¯·è¾“å…¥æ‰€æŸ¥è¯¢çš„åŒºåŸŸéå·(1-" + addrList.size() + ")ï¼š");
 		key = sc.next();
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < addrList.size(); i++) {
 
-			if (list.get(i).containsValue(key)) {
-				System.out.println(list.get(i));
+			if (addrList.get(i).containsValue(key)) {
+				System.out.println(addrList.get(i));
 			}
 
 		}
@@ -167,10 +164,10 @@ public class AddreOperator {
 		Map<String, String> emp = new HashMap<String, String>();
 		Scanner sc = new Scanner(System.in);
 		key = sc.next();
-		for (int i = 0; i < list.size(); i++) {
-			emp = (HashMap) list.get(i);
+		for (int i = 0; i < addrList.size(); i++) {
+			emp = (HashMap) addrList.get(i);
 			if (emp.containsValue(key)) {
-				System.out.println(list.get(i));
+				System.out.println(addrList.get(i));
 			}
 		}
 	}
@@ -184,20 +181,18 @@ public class AddreOperator {
 		BufferedReader br = new BufferedReader(isr);
 		keylike = br.readLine();
 
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < addrList.size(); i++) {
 
-			emap = (HashMap) list.get(i);
+			emap = (HashMap) addrList.get(i);
 			Iterator<String> itera = emap.keySet().iterator();
 			Iterator<Object> iterb = emap.values().iterator();
 
 			while (itera.hasNext() && iterb.hasNext()) {
 
-				// ÒòÎªµü´úÆ÷Ã¿´Î»áÒÆ¶¯Ò»¸öÎ»ÖÃ£¬Ö¸ÕëÒÆ¶¯Ò»Î»£¬ÓÃÒ»¸öÁÙÊ±±äÁ¿À´±£´æÃ¿´ÎµÄÖµ
 				String temp = (String) iterb.next();
-				// ÕÒ³ö¼üÖµ¶Ô£¬ÖµÒÔkey¿ªÍ·µÄ¼üÖµ¶Ô£¬²¢±éÀú
 				if (temp.startsWith(keylike)) {
 					// System.out.println(itera.next() + "  " + list.get(i));
-					System.out.println(list.get(i));
+					System.out.println(addrList.get(i));
 				}
 
 			}
@@ -214,17 +209,16 @@ public class AddreOperator {
 		Map<String, String> emp = new HashMap<String, String>();
 		Scanner sc = new Scanner(System.in);
 		key = sc.next();
-		for (int i = 0; i < list.size(); i++) {
-			emp = (HashMap<String, String>) list.get(i);
+		for (int i = 0; i < addrList.size(); i++) {
+			emp = (HashMap<String, String>) addrList.get(i);
 
 			if (emp.containsValue(key)) {
 				// System.out.println(list.get(i));
-				HashMap<?, ?> locations = list.get(i);//ÕâÆ¥ÅäµÄÊÇ½Óµ¥Ë¾»úµÄµØÖ·¡£
+				HashMap<?, ?> locations = addrList.get(i);
 				endAddress = (String) locations.get("address");
 				System.out.println(endAddress);
-				System.out.println("ÄúÒÑÑ¡ÔñµÄµØµãÎª£º" + locations.get("address"));// ÎÄ¼şÎª´óĞ´£¬Êı¾İ¿âÎªĞ¡Ğ´
+				System.out.println("æ‚¨å·²é€‰æ‹©çš„åœ°ç‚¹ä¸ºï¼š" + locations.get("location"));
 				if (needSave) {
-					// saveOutAddaress();
 					handleSqlJourney();
 				}
 				System.out.println(Constants.NEXT_STEP);
@@ -235,63 +229,102 @@ public class AddreOperator {
 
 	}
 
-	static DBDao da = new DBDao();
-
-	//ĞĞ³Ì±íµÄ²åÈë
 	public static void handleSqlJourney() throws Exception {
 
 		Date nowTime = new Date(System.currentTimeMillis());
 		SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		String retStrFormatNowDate = sdFormatter.format(nowTime);
-		DBDao.doInsertJourney(new OutAddress(1,newcarphone,startAddress, endAddress,
-				totalprice));
+		DBDao.addJourney(new OutAddress(1, newCarPhone, startAddress,
+				endAddress, totalPrice));
 		System.out.println(Constants.SAVE_SUCCEED);
 	}
 
-	static CarManage carmange = new CarManage();
-	static int newcarphone;
-	static int totalprice;
-	
-	
-	public static void merge() throws InterruptedException, SQLException {
-		// String filename1 = "D:/3.txt";
-		boolean bool = false;
-		// ¶¨Òå´æ´¢¶ÁÈ¡µ½µÄÊı¾İ¼ÇÂ¼µÄ¼¯ºÏ
+	static int newCarPhone;
+	static float totalPrice;
+	static String carType;
+
+	public static void inputCarType() throws SQLException {
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-		list = ReadFileUtils.readDriverMysqlFile();
+		System.out.println("è¯·è¾“å…¥æ‚¨è¦é€‰æ‹©çš„è½¦å‹");
+		carType = sc.next();
+		String tabCar = "yd_car";
+		list = ReadFileUtils.findAll(tabCar);
+		for (int i = 0; i < list.size(); i++) {
+			HashMap<?, ?> values = list.get(i);
+			String carTypeDb = (String) values.get("cartype");
+
+			if (carTypeDb.indexOf(carType) > -1) {
+
+				System.out.println(list.get(i));
+			}
+		}
+
+		String tabDriverCar = "yd_driver_dist";
+		newCarList = ReadFileUtils.findAll(tabDriverCar);
+        System.out.println("è¯·è¾“å…¥åŒ¹é…åˆ°çš„è½¦å­ç¼–å·");
+		int carId = sc.nextInt();
+		for (int i = 0; i < list.size(); i++) {
+			HashMap<?, ?> values = list.get(i);
+			// String carTypeDb = (String) values.get("cartype");
+
+			if (values.containsValue(carId)) {
+
+				System.out.println(list.get(i));
+				for (int j = 0, col = newCarList.size(); j < col;) {
+					HashMap driverCar = newCarList.get(j);
+					if (driverCar.containsKey(carId)) {
+						System.out.println("åŒ¹é…æˆåŠŸ");
+					}else{
+						System.out.println("åŒ¹é…å¤±è´¥ï¼Œè¯·é€‰æ‹©ç›®çš„åœ°åŒ¹é…å§");
+					}
+				}
+			}
+		}
+	}
+
+	public static void merge() throws InterruptedException, SQLException {
+		boolean bool = false;
+		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+		//
+		String tabDriver = "driver";
+		// list = ReadFileUtils.readDriverMysqlFile();
+		list = ReadFileUtils.findAll(tabDriver);
 		for (int i = 0; i < list.size(); i++) {
 			HashMap<?, ?> values = list.get(i);
 			String addressdb = (String) values.get("address");
-			//String startprice = (String) values.get("car");
-
-			// HashMap valuesCar = newCarlist.get(i);
-			//String phonedb = (String) values.get("phone");
 
 			if (addressdb.indexOf(endAddress) > -1) {
 
-				System.out.println("Æ¥Åä³É¹¦");
-				System.out.println("³µÖ÷µÄÊÖ»úºÅÊÇ:" + values.get("phone"));// ÄÃµ½Ë¾»úµÄÊÖ»úºÅ£¬µÃµ½Ë¾»úµÄ³µ×Ó£¬Êä³ö³µ×ÓµÄĞÅÏ¢¡£
-				//String carphone = (String) values.get("phone");
-				newCarlist = ReadFileUtils.readDriverCarMysqlFile();
-				for (int j = 0; j < newCarlist.size();) {
-					HashMap valuescar = newCarlist.get(j);
+				System.out.println("åŒ¹é…æˆåŠŸ");
+				System.out.println("è½¦ä¸»çš„æ‰‹æœºå·æ˜¯:" + values.get("phone"));
+				// String carphone = (String) values.get("phone");
+				String tabDriverList = "yd_driver_dist";
+				// newCarlist = ReadFileUtils.readDriverCarMysqlFile();
+				newCarList = ReadFileUtils.findAll(tabDriverList);
+				for (int j = 0, row = newCarList.size(); j < row;) {
+					HashMap valuescar = newCarList.get(j);
 
 					System.out.println(valuescar);
-					newcarphone = Integer.valueOf((String) valuescar.get("uid")); // ÒÑ¾­Êä³ö01
-					System.out.println("ÎªÄúÆ¥Åäµ½µÄ³µ×Ó±àºÅ£º" + newcarphone);
-					finalcarlist = ReadFileUtils.readCarMysqlFile();
-					System.out.println("ÇëÊäÈëÄúÑ¡ÔñµÄ³µ×Ó±àºÅ");
+					newCarPhone = Integer
+							.valueOf((String) valuescar.get("uid"));
+					System.out.println("ä¸ºæ‚¨åŒ¹é…åˆ°çš„è½¦å­ç¼–å·ï¼š" + newCarPhone);
+					String tabCar = "yd_car";
+					finalCarList = ReadFileUtils.findAll(tabCar);
+					// finalcarlist = ReadFileUtils.readCarMysqlFile();
+					System.out.println("è¯·è¾“å…¥æ‚¨é€‰æ‹©çš„è½¦å­");
 					finalCar();
 
-					System.out.println("Äú±¾´Î³öĞĞËù³Ë×øµÄ³µ×ÓÆğ²½¼ÛÎª£º" + baseprice);
-					totalprice = 5*(Integer.parseInt(baseprice));
-					System.out.println("±¾´Î³öĞĞÏû·ÑÁË" + totalprice);
+					System.out.println("æ‚¨æœ¬æ¬¡å‡ºè¡Œæ‰€ä¹˜åçš„è½¦å­èµ·æ­¥ä»·ä¸ºï¼š" + basePrice);
+					System.out.println(Constants.SUCCESS_ARRIVED_TIP);
+					System.out.println("æœ¬æ¬¡å‡ºè¡Œæ¶ˆè´¹äº†"
+							+ (Math.random() * 5 * (int) (Double
+									.parseDouble(basePrice))));
 					break;
 
 				}
 
 				bool = true;
-				System.out.println(Constants.SUCCESS_ARRIVED_TIP);
+
 				break;
 			}
 		}
@@ -301,29 +334,26 @@ public class AddreOperator {
 
 	}
 
-	static String baseprice;
-	static List<HashMap<String, String>> finalcarlist;
+	static String basePrice;
+	static List<HashMap<String, String>> finalCarList;
 
 	public static void finalCar() {
 		String key = null;
 		Map<String, String> finalmp = new HashMap<String, String>();
 		Scanner sc = new Scanner(System.in);
 		key = sc.next();
-		for (int i = 0; i < finalcarlist.size(); i++) {
-			finalmp = (HashMap) finalcarlist.get(i);
+		for (int i = 0, row = finalCarList.size(); i < row; i++) {
+			finalmp = (HashMap) finalCarList.get(i);
 
 			if (finalmp.containsValue(key)) {
-				// System.out.println(finalcarlist.get(i));
-				// System.out.println(finalcarlist.get(i).values());
-				HashMap carlocations = finalcarlist.get(i);
+
+				HashMap carlocations = finalCarList.get(i);
 				String cartypeid = (String) carlocations.get("subtype");
 				String typeid = (String) carlocations.get("typeid");
-				// System.out.println(typeid);
-				baseprice = (String) carlocations.get("baseprice");
+				basePrice = (String) carlocations.get("baseprice");
 				String timeprice = (String) carlocations.get("timeprice");
-				// System.out.println(locations.get("typeid"));
-				System.out.println("ÄúµÄ³µ×ÓÊÇ:" + cartypeid + "!Æğ²½¼ÛÎª£º" + baseprice
-						+ "Ê±³¤¼ÛÎª£º" + timeprice);
+				System.out.println("æ‚¨çš„è½¦å­æ˜¯:" + cartypeid + "!èµ·æ­¥ä»·ä¸ºï¼š" + basePrice
+						+ "æ—¶é•¿ä»·ä¸ºï¼š" + timeprice);
 			}
 		}
 

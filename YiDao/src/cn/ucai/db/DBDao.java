@@ -14,10 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.ucai.yidao.Driver;
-import cn.ucai.yidao.DriverCar;
-import cn.ucai.yidao.OutAddress;
-import cn.ucai.yidao.Person;
+import cn.ucai.entity.Driver;
+import cn.ucai.entity.DriverCar;
+import cn.ucai.entity.OutAddress;
+import cn.ucai.entity.Person;
 
 public class DBDao {
 
@@ -26,7 +26,7 @@ public class DBDao {
 	private ResultSet rs = null;
 
 	// 插入一条记录
-	public static boolean doInsertPerson(Person per) throws Exception {
+	public static boolean addPerson(Person per) throws Exception {
 		boolean flag = false;
 		String sql = "insert into yd_person values(?,?,?,?,?,?,?)";
 		ps = conn.prepareStatement(sql);
@@ -44,7 +44,7 @@ public class DBDao {
 	}
 
 	// 插入一条记录
-	public static boolean doInsertDriver(Driver driver) throws Exception {
+	public static boolean addDriver(Driver driver) throws Exception {
 		boolean flag = false;
 		String sql = "insert into driver values(?,?,?,?,?,?,?)";
 		ps = conn.prepareStatement(sql);
@@ -62,7 +62,7 @@ public class DBDao {
 		return flag;
 	}
 
-	public static boolean doInsertFromTo(DriverCar drivercar) throws Exception {
+	public static boolean addFromTo(DriverCar drivercar) throws Exception {
 		boolean flag = false;
 		String sql = "insert into yd_driver_dist values(?,?)";
 		ps = conn.prepareStatement(sql);
@@ -73,7 +73,7 @@ public class DBDao {
 		}
 		return flag;
 	}
-	public static boolean doInsertJourney(OutAddress outaddress) throws Exception {
+	public static boolean addJourney(OutAddress outaddress) throws Exception {
 		boolean flag = false;
 		String sql = "insert into yd_journey values(?,?,?,?,?)";
 		ps = conn.prepareStatement(sql);
@@ -87,41 +87,12 @@ public class DBDao {
 		}
 		return flag;
 	}
-	
-	
-	// public List<Map<String, Object>> getListFromRs() throws SQLException {
-	// String sql = "select * from person ";
-	// ps = conn.prepareStatement(sql);
-	// ResultSet rs = ps.executeQuery();
-	// ResultSetMetaData rsmd = rs.getMetaData();
-	// int count = rsmd.getColumnCount();
-	// Map<String, Object> map = new HashMap<String, Object>();
-	// List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-	// while(rs.next()){
-	//
-	// for (int i = 1; i < count; i++) {
-	// // 获取指定列的表目录名称
-	// String label = rsmd.getColumnLabel(i);
-	// // 以 Java 编程语言中 Object 的形式获取此 ResultSet 对象的当前行中指定列的值
-	// Object object = rs.getObject(i);
-	// // 把数据库中的字段名和值对应为一个map对象中的一个键值对
-	// map.put(label.toLowerCase(), object);
-	// // 把每条对象封装成的map对象放进list中
-	// list.add(map);
-	// }
-	//
-	//
-	//
-	// }
-	// System.out.println(list);
-	// return list;
-	// }
-	static List<HashMap<String, String>> list;
+
 
 	public static List<Map<String, String>> readMysqlFile() throws SQLException {
 
 		// 定义存储读取到的数据记录的集合
-		list = new ArrayList<HashMap<String, String>>();
+		//List<HashMap<String,String>>list = new ArrayList<HashMap<String, String>>();
 		String sql = "select * from yd_person ";
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -143,7 +114,6 @@ public class DBDao {
 			}
 			list.add(map);
 		}
-		// System.out.println(list);
 		return list;
 	}
 }

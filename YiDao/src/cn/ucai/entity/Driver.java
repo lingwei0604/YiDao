@@ -1,4 +1,4 @@
-package cn.ucai.yidao;
+package cn.ucai.entity;
 
 public class Driver {
 	private String phone;

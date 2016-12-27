@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
-import cn.ucai.yidao.Address;
+import cn.ucai.entity.Address;
 
 //import static com.samboluong.javamodule.AddressModule.Type.ADDRESSID;
 //import static com.samboluong.javamodule.AddressModule.Type.DETAIL;

@@ -26,6 +26,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import cn.ucai.db.DBDao;
 import cn.ucai.db.DBUtils;
+import cn.ucai.entity.Driver;
+import cn.ucai.entity.DriverCar;
+import cn.ucai.entity.Person;
 import cn.ucai.util.Constants;
 import cn.ucai.util.MD5Utils;
 import cn.ucai.util.ReadFileUtils;
@@ -33,47 +36,51 @@ import cn.ucai.util.StringUtils;
 
 public class Register {
 
-	static String phone, pass, type, mdpass, toaddress, retStrFormatNowDate,
+	static String phone, pass, type, password, toAddress, retStrFormatNowDate,
 			ip, salt;
 	static String ctype, model, price;
-	static List<Person> per;
-	static List<Driver> per2;
-	static List<DriverCar> drivercar;
-	static List<HashMap<String, String>> list;
-	static Map<String, List<DriverCar>> map3;
+	static List<Person> person;
+	static List<Driver> driver;
+	static List<DriverCar> driverCar;
+	static List<HashMap<String, String>> personList;
+	static Map<String, List<DriverCar>> driverCarMap;
 	static Scanner sc = new Scanner(System.in);
 
-	static AddreOperator addre = new AddreOperator();
+	static AddreOperator addr = new AddreOperator();
 
-	static CarManage carmange = new CarManage();
-	static String newcartypeid = null;
+	static CarManage carManage = new CarManage();
+	static String newCarTypeId = null;
 	static DBDao dao = new DBDao();
 
 	// 手机号的检测，长度，数字。
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		Map<String, List<Person>> map = new HashMap<String, List<Person>>();
-		per = new ArrayList<Person>();
+		person = new ArrayList<Person>();
 		Map<String, List<Driver>> map2 = new HashMap<String, List<Driver>>();
-		per2 = new ArrayList<Driver>();
+		driver = new ArrayList<Driver>();
 
-		map3 = new HashMap<String, List<DriverCar>>();
-		drivercar = new ArrayList<DriverCar>();
-		map3.put("p3", drivercar);
-		map2.put("p2", per2);
-		map.put("p", per);
+		driverCarMap = new HashMap<String, List<DriverCar>>();
+		driverCar = new ArrayList<DriverCar>();
+		driverCarMap.put("p3", driverCar);
+		map2.put("p2", driver);
+		map.put("p", person);
 
 		inputInit();
 
 		if (type.equals("0")) {
 			// 从数据库中写入、读取数据
 			handleSqlPerson();
-			list = ReadFileUtils.readPersonMysqlFile();
+			// personList = ReadFileUtils.readPersonMysqlFile();
+			String tabPerson ="yd_person";
+			personList = ReadFileUtils.findAll(tabPerson);
 
 		} else {
 			// 从数据库中写入、读取数据
 			handleSqlDriver();
-			list = ReadFileUtils.readDriverMysqlFile();
+			// personList = ReadFileUtils.readDriverMysqlFile();
+			String tabDriver = "driver";
+			personList = ReadFileUtils.findAll(tabDriver);
 
 		}
 		signin();
@@ -81,32 +88,32 @@ public class Register {
 	}
 
 	public static void handleSqlPerson() throws Exception {
-        int uid = (int) (Math.random()*100); 
-		DBDao.doInsertPerson(new Person(uid,phone, mdpass, "123456",
+		int uid = (int) (Math.random() * 100);
+		DBDao.addPerson(new Person(uid, phone, password, "123456",
 				retStrFormatNowDate, ip, type));
 		System.out.println(Constants.SIGN_UP_SUCCEED);
 	}
 
 	public static void handleSqlDriver() throws Exception {
 
-		DBDao.doInsertDriver(new Driver(phone, mdpass, "123456",
-				retStrFormatNowDate, type, ip, toaddress));
+		DBDao.addDriver(new Driver(phone, password, "123456",
+				retStrFormatNowDate, type, ip, toAddress));
 		System.out.println(Constants.SIGN_UP_SUCCEED);
 	}
 
 	public static void handleSqlFormTo() throws Exception {
-		DBDao.doInsertFromTo(new DriverCar(newcartypeid, phone));
+		DBDao.addFromTo(new DriverCar(newCarTypeId, phone));
 	}
 
 	public static void inputInit() throws Exception {
 
 		System.out.println(Constants.INPUT_PHONE);
 		phone = sc.next();
-
-		while (!StringUtils.isMobile(phone)) {
-			System.out.println("请输入有效的手机号码");
-			phone = sc.next();
-		}
+//
+//		while (!StringUtils.isMobile(phone)) {
+//			System.out.println("请输入有效的手机号码");
+//			phone = sc.next();
+//		}
 
 		System.out.println(Constants.INPUT_PASSWORD);
 		pass = sc.next();
@@ -116,7 +123,9 @@ public class Register {
 
 		if (type.equals("1")) {// 如果是车主，进行可以到达的目的地选择
 			System.out.println(Constants.IMPUT_TO_ADDRESS);
-			carSelectFromTolist = ReadFileUtils.readAddressMysqlFile();
+			String tabAddress = "yd_address";
+			// carSelectFromTolist = ReadFileUtils.readAddressMysqlFile();
+			carSelectFromTolist = ReadFileUtils.findAll(tabAddress);
 			trip();
 
 		}
@@ -128,7 +137,7 @@ public class Register {
 		InetAddress netAddress = getInetAddress();
 		ip = getHostIp(netAddress);
 
-		mdpass = MD5Utils.md5Encode(pass + "123456");
+		password = MD5Utils.md5Encode(pass + "123456");
 	}
 
 	static List<HashMap<String, String>> carSelectFromTolist;
@@ -161,7 +170,7 @@ public class Register {
 			}
 		}
 		System.out.println(Constants.IMPUT_ID);
-		toaddress = init();
+		toAddress = init();
 
 	}
 
@@ -200,8 +209,8 @@ public class Register {
 		System.out.println(Constants.INPUT_PASSWORD);
 		String pass = sc.next();
 		String mdpass = MD5Utils.md5Encode(pass + "123456");
-		for (int i = 0; i < list.size(); i++) {
-			HashMap values = list.get(i);
+		for (int i = 0; i < personList.size(); i++) {
+			HashMap values = personList.get(i);
 			String phonedb = (String) values.get("phone");
 			String passdb = (String) values.get("password");
 			usertype = (String) values.get("type");
@@ -214,46 +223,22 @@ public class Register {
 		}
 
 		if (usertype.equals("0")) {
-			//new AddreOperator();
+			// new AddreOperator();
 			AddreOperator.Main();
 		} else {
-			//new CarManage();
+			// new CarManage();
 			CarManage.Main2();
-			newcartypeid = CarManage.typeid;
+			newCarTypeId = CarManage.typeId;
 			// String filename3 = "D:\\drivercar.txt";
 			// handleType3(filename3, map3);
 			handleSqlFormTo();
 		}
 	}
 
-	public static void handleType3(String filename,
-			Map<String, List<DriverCar>> map3) throws IOException {
-
-		drivercar.add(new DriverCar(newcartypeid, phone));
-
-		String line = System.getProperty("line.separator");
-		StringBuffer str = new StringBuffer();
-		FileWriter fw = new FileWriter(filename, true);
-		Set<String> keySet = map3.keySet();
-		for (Iterator<String> it = keySet.iterator(); it.hasNext();) {
-			String key = it.next();
-			List<DriverCar> list = map3.get(key);
-			for (Iterator<DriverCar> it2 = list.iterator(); it2.hasNext();) {
-				DriverCar pd = it2.next();
-				str.append(pd.getUserid() + " : " + pd.getCartype()).append(
-						line);
-				System.out.println("注册完成");
-			}
-		}
-		fw.write(str.toString());
-		fw.close();
-
-	}
-
 	public static List<HashMap<String, String>> readTxtFile(String filePath) {
 
 		// 定义存储读取到的数据记录的集合
-		list = new ArrayList<HashMap<String, String>>();
+		personList = new ArrayList<HashMap<String, String>>();
 		try {
 
 			String encoding = "GB2312";
@@ -281,8 +266,8 @@ public class Register {
 
 					} else {
 						fieldValue = lineTxt.split("\\:");
-						for (int i = 0; i < fields.length; i++) {
-							for (int j = 0; j < fieldValue.length; j++) {
+						for (int i = 0, row = fields.length; i < row; i++) {
+							for (int j = 0, col = fieldValue.length; j < col; j++) {
 								if (i == j) {
 									map.put(fields[i], fieldValue[j]);
 
@@ -290,7 +275,7 @@ public class Register {
 							}
 						}
 						// 将读取的每一行的记录存入到list集合中
-						list.add(map);
+						personList.add(map);
 					}
 
 					count++;
@@ -303,7 +288,7 @@ public class Register {
 			System.out.println("读取文件内容出错");
 			e.printStackTrace();
 		}
-		return list;
+		return personList;
 	}
 
 	public static InetAddress getInetAddress() {
