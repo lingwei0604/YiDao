@@ -4,13 +4,15 @@ import java.util.Calendar;
 
 public class PassengerClient extends Thread {
 
+	double seconds,totalFare;
+	
 	public void run() {
-		double seconds,totalFare;
+		
 //		Calendar calendar = Calendar.getInstance();
 //		double fare = Double.parseDouble(AddreManage.basePrice);
 //		seconds = calendar.get(Calendar.SECOND);
 //		totalFare = seconds%5 * 2 + fare;
-//		System.out.println("³Ë¿Í£º±¾´Î³öÐÐÏû·ÑÁË" + totalFare + "Ôª");
+//		System.out.println("ä¹˜å®¢ï¼šæœ¬æ¬¡å‡ºè¡Œæ¶ˆè´¹äº†" + totalFare + "å…ƒ");
 		
 	}
 }

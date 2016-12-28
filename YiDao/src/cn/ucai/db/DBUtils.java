@@ -4,16 +4,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtils {
-	public static final String DBDRIVER="org.gjt.mm.mysql.Driver";//mysqlÊı¾İ¿âÇı¶¯
-	public static final String DBURL="jdbc:mysql://localhost:3306/yidao"; //Êı¾İ¿âURL
+	public static final String DBDRIVER="org.gjt.mm.mysql.Driver";//mysqlæ•°æ®åº“é©±åŠ¨
+	public static final String DBURL="jdbc:mysql://localhost:3306/yidao"; //æ•°æ®åº“URL
 	public static final String DBUSER="root";
 	public static final String DBPASS="root";
 	private static Connection conn = null; 
 	
-	//¾²Ì¬¿é
+	//é™æ€å—
 		static{
 			try {
-				Class.forName(DBDRIVER);   //¼ÓÔØÇı¶¯
+				Class.forName(DBDRIVER);   //åŠ è½½é©±åŠ¨
 				conn = DriverManager.getConnection(DBURL, DBUSER, DBPASS);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -21,11 +21,11 @@ public class DBUtils {
 		}
 		
 		public DBUtils() {
-			System.out.println("¹¹Ôì·½·¨");
+			System.out.println("æ„é€ æ–¹æ³•");
 		}
 		
 		public static Connection getConnection(){
-			return conn; //¾²Ì¬·½·¨Ö»ÄÜ·ÃÎÊ¾²Ì¬±äÁ¿
+			return conn; //é™æ€æ–¹æ³•åªèƒ½è®¿é—®é™æ€å˜é‡
 		}
 		
 		public void close() {

@@ -10,7 +10,7 @@ public class DBtest {
 	public static void main(String[] args) throws SQLException {
 		System.out.println(DBUtils.getConnection());
 		//new DBOperator().getListFromRs();
-		new DBDao().readMysqlFile();
+		//new DBDao().readMysqlFile();
 
 	}
 

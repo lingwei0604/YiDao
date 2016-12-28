@@ -31,10 +31,10 @@ public class CarManage {
 	
 	public static void Main2() throws IOException, SQLException {
 
-		// ´ÓÎÄ±¾ÎÄ¼ş¶ÁÈ¡Êı¾İ
+		// ä»æ–‡æœ¬æ–‡ä»¶è¯»å–æ•°æ®
 		// String filePath = "D:/car.txt";
 		// carlist = readTxtFile(filePath);
-		// ´ÓÊı¾İ¿â¶ÁÈ¡Êı¾İ
+		// ä»æ•°æ®åº“è¯»å–æ•°æ®
 		String tabCar = "yd_car";
 		carList = ReadFileUtils.findAll(tabCar);
 		//carList = ReadFileUtils.readCarMysqlFile();
@@ -47,7 +47,7 @@ public class CarManage {
 		String keyLike = null;
 		Map<String, Object> careMap = new ConcurrentHashMap<String, Object>();
 		List carresult = new ArrayList();
-		System.out.println("ÇëÑ¡ÔñÄúµÄ³µĞÍ");
+		System.out.println("è¯·é€‰æ‹©æ‚¨çš„è½¦å‹");
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
 		keyLike = br.readLine();
@@ -59,9 +59,9 @@ public class CarManage {
 
 			while (itera.hasNext() && iterb.hasNext()) {
 
-				// ÒòÎªµü´úÆ÷Ã¿´Î»áÒÆ¶¯Ò»¸öÎ»ÖÃ£¬Ö¸ÕëÒÆ¶¯Ò»Î»£¬ÓÃÒ»¸öÁÙÊ±±äÁ¿À´±£´æÃ¿´ÎµÄÖµ
+				// å› ä¸ºè¿­ä»£å™¨æ¯æ¬¡ä¼šç§»åŠ¨ä¸€ä¸ªä½ç½®ï¼ŒæŒ‡é’ˆç§»åŠ¨ä¸€ä½ï¼Œç”¨ä¸€ä¸ªä¸´æ—¶å˜é‡æ¥ä¿å­˜æ¯æ¬¡çš„å€¼
 				String cartemp = (String) iterb.next();
-				// ÕÒ³ö¼üÖµ¶Ô£¬ÖµÒÔkey¿ªÍ·µÄ¼üÖµ¶Ô£¬²¢±éÀú
+				// æ‰¾å‡ºé”®å€¼å¯¹ï¼Œå€¼ä»¥keyå¼€å¤´çš„é”®å€¼å¯¹ï¼Œå¹¶éå†
 				if (cartemp.startsWith(keyLike)) {
 					// System.out.println(itera.next() + "  " + carlist.get(i));
 					System.out.println(carList.get(i));
@@ -94,8 +94,8 @@ public class CarManage {
 				basePrice = (String) carlocations.get("baseprice");
 				String timeprice = (String) carlocations.get("timeprice");
 				// System.out.println(locations.get("typeid"));
-				System.out.println("ÄúµÄ³µ×ÓÊÇ:" + cartypeid + "!Æğ²½¼ÛÎª£º" + basePrice
-						+ "Ê±³¤¼ÛÎª£º" + timeprice);
+				System.out.println("æ‚¨çš„è½¦å­æ˜¯:" + cartypeid + "!èµ·æ­¥ä»·ä¸ºï¼š" + basePrice
+						+ "æ—¶é•¿ä»·ä¸ºï¼š" + timeprice);
 			}
 		}
 

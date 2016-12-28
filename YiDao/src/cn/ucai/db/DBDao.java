@@ -25,7 +25,7 @@ public class DBDao {
 	private static PreparedStatement ps = null;
 	private ResultSet rs = null;
 
-	// ²åÈëÒ»Ìõ¼ÇÂ¼
+	// æ’å…¥ä¸€æ¡è®°å½•
 	public static boolean addPerson(Person per) throws Exception {
 		boolean flag = false;
 		String sql = "insert into yd_person values(?,?,?,?,?,?,?)";
@@ -43,7 +43,7 @@ public class DBDao {
 		return flag;
 	}
 
-	// ²åÈëÒ»Ìõ¼ÇÂ¼
+	// æ’å…¥ä¸€æ¡è®°å½•
 	public static boolean addDriver(Driver driver) throws Exception {
 		boolean flag = false;
 		String sql = "insert into driver values(?,?,?,?,?,?,?)";
@@ -89,31 +89,5 @@ public class DBDao {
 	}
 
 
-	public static List<Map<String, String>> readMysqlFile() throws SQLException {
-
-		// ¶¨Òå´æ´¢¶ÁÈ¡µ½µÄÊı¾İ¼ÇÂ¼µÄ¼¯ºÏ
-		//List<HashMap<String,String>>list = new ArrayList<HashMap<String, String>>();
-		String sql = "select * from yd_person ";
-		ps = conn.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
-		ResultSetMetaData rsmd = rs.getMetaData();
-		int count = rsmd.getColumnCount();
-		Map<String, String> map = new HashMap<String, String>();
-		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		while (rs.next()) {
-
-			for (int i = 1; i < count; i++) {
-				// »ñÈ¡Ö¸¶¨ÁĞµÄ±íÄ¿Â¼Ãû³Æ
-				String label = rsmd.getColumnLabel(i);
-				// ÒÔ Java ±à³ÌÓïÑÔÖĞ Object µÄĞÎÊ½»ñÈ¡´Ë ResultSet ¶ÔÏóµÄµ±Ç°ĞĞÖĞÖ¸¶¨ÁĞµÄÖµ
-				Object object = rs.getObject(i);
-				// °ÑÊı¾İ¿âÖĞµÄ×Ö¶ÎÃûºÍÖµ¶ÔÓ¦ÎªÒ»¸ömap¶ÔÏóÖĞµÄÒ»¸ö¼üÖµ¶Ô
-				map.put(label.toLowerCase(), String.valueOf(object));
-				// °ÑÃ¿Ìõ¶ÔÏó·â×°³ÉµÄmap¶ÔÏó·Å½ølistÖĞ
-
-			}
-			list.add(map);
-		}
-		return list;
-	}
+	
 }

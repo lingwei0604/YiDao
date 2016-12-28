@@ -22,59 +22,75 @@ public class ReadFileUtils {
 	private static PreparedStatement ps = null;
 	private ResultSet rs = null;
 	
-	
 	public static List<HashMap<String, String>> findAll(String type)
-			throws SQLException {
-		// ¶¨Òå´æ´¢¶ÁÈ¡µ½µÄÊı¾İ¼ÇÂ¼µÄ¼¯ºÏ
-		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-		String sql = "select * from " + type;
+	{
+		return ReadFileUtils.getDataByCondition(type, "1=1");
+	}
+	public static List<HashMap<String, String>> getUserByPhone(String phone)
+	{
+		return ReadFileUtils.getDataByCondition("yd_person", "phone='"+phone+"'");
+	}
+	
+	private static List<HashMap<String, String>> getDataByCondition(String type, String where)
+	{
+	   List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+	   try	
+	   {
+		// å®šä¹‰å­˜å‚¨è¯»å–åˆ°çš„æ•°æ®è®°å½•çš„é›†åˆ
+		
+		String sql = "select * from " + type + " WHERE "+where;
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
-		ResultSetMetaData rsmd = rs.getMetaData();// µÃµ½½á¹û¼¯ÁĞµÄÊôĞÔ
-		int count = rsmd.getColumnCount();// µÃµ½¼ÇÂ¼ÓĞ¶àÉÙÁĞ
-		// Ö®Ç°Ğ´µ½ÕâÀï£¬listÖĞµÄ¶¼ÊÇ¶àÌõÍ¬ÑùµÄÊı¾İ£¬¶ø·ÅÏÂÃæ¾Í¿ÉÒÔ½â¾öÕâ¸öÎÊÌâ
+		ResultSetMetaData rsmd = rs.getMetaData();// å¾—åˆ°ç»“æœé›†åˆ—çš„å±æ€§
+		int count = rsmd.getColumnCount();// å¾—åˆ°è®°å½•æœ‰å¤šå°‘åˆ—
+		// ä¹‹å‰å†™åˆ°è¿™é‡Œï¼Œlistä¸­çš„éƒ½æ˜¯å¤šæ¡åŒæ ·çš„æ•°æ®ï¼Œè€Œæ”¾ä¸‹é¢å°±å¯ä»¥è§£å†³è¿™ä¸ªé—®é¢˜
 		while (rs.next()) {
 			HashMap<String, String> map = new HashMap<String, String>();
 			for (int i = 1; i < count + 1; i++) {
-				// »ñÈ¡Ö¸¶¨ÁĞµÄ±íÄ¿Â¼Ãû³Æ
+				// è·å–æŒ‡å®šåˆ—çš„è¡¨ç›®å½•åç§°
 				String label = rsmd.getColumnLabel(i);
-				// ÒÔ Java ±à³ÌÓïÑÔÖĞ Object µÄĞÎÊ½»ñÈ¡´Ë ResultSet ¶ÔÏóµÄµ±Ç°ĞĞÖĞÖ¸¶¨ÁĞµÄÖµ
+				// ä»¥ Java ç¼–ç¨‹è¯­è¨€ä¸­ Object çš„å½¢å¼è·å–æ­¤ ResultSet å¯¹è±¡çš„å½“å‰è¡Œä¸­æŒ‡å®šåˆ—çš„å€¼
 				Object object = rs.getObject(i);
-				// °ÑÊı¾İ¿âÖĞµÄ×Ö¶ÎÃûºÍÖµ¶ÔÓ¦ÎªÒ»¸ömap¶ÔÏóÖĞµÄÒ»¸ö¼üÖµ¶Ô
+				// æŠŠæ•°æ®åº“ä¸­çš„å­—æ®µåå’Œå€¼å¯¹åº”ä¸ºä¸€ä¸ªmapå¯¹è±¡ä¸­çš„ä¸€ä¸ªé”®å€¼å¯¹
 				map.put(label.toLowerCase(), String.valueOf(object));
 				// System.out.println(map);
-				// °ÑÃ¿Ìõ¶ÔÏó·â×°³ÉµÄmap¶ÔÏó·Å½ølistÖĞ
+				// æŠŠæ¯æ¡å¯¹è±¡å°è£…æˆçš„mapå¯¹è±¡æ”¾è¿›listä¸­
 
 			}
 			list.add(map);
 
 		}
 		return list;
+	   }
+	   catch(SQLException ex)
+	   {
+		   return list;
+	   }
 	}
 	
 	
 	public static List<HashMap<String, String>> readTxtFile(String filePath) {
 
-		// ¶¨Òå´æ´¢¶ÁÈ¡µ½µÄÊı¾İ¼ÇÂ¼µÄ¼¯ºÏ
+		// å®šä¹‰å­˜å‚¨è¯»å–åˆ°çš„æ•°æ®è®°å½•çš„é›†åˆ
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		try {
 
 			String encoding = "GB2312";
 			File file = new File(filePath);
-			// ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
+			// åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 			if (file.isFile() && file.exists()) {
-				// ¿¼ÂÇµ½±àÂë¸ñÊ½
+				// è€ƒè™‘åˆ°ç¼–ç æ ¼å¼
 				InputStreamReader read = new InputStreamReader(
 						new FileInputStream(file), encoding);
 				BufferedReader bufferedReader = new BufferedReader(read);
 				String lineTxt = null;
-				// ¼ÇÂ¼¶ÁÈ¡µÄÊı¾İÎÄ¼şµÄĞĞÊı
+				// è®°å½•è¯»å–çš„æ•°æ®æ–‡ä»¶çš„è¡Œæ•°
 				int count = 0;
-				// ¶¨Òå×Ö¶ÎµÄÊı×é
+				// å®šä¹‰å­—æ®µçš„æ•°ç»„
 				String[] fields = null;
-				// ¶¨ÒåÃ¿Ìõ¼ÇÂ¼È¡³öµÄ×Ö¶ÎÖµÊı×é
+				// å®šä¹‰æ¯æ¡è®°å½•å–å‡ºçš„å­—æ®µå€¼æ•°ç»„
 				String[] fieldValue = null;
-				// ¶¨ÒåMap¼¯ºÏ
+				// å®šä¹‰Mapé›†åˆ
 				HashMap<String, String> map = new HashMap<String, String>();
 				while ((lineTxt = bufferedReader.readLine()) != null) {
 
@@ -92,7 +108,7 @@ public class ReadFileUtils {
 								}
 							}
 						}
-						// ½«¶ÁÈ¡µÄÃ¿Ò»ĞĞµÄ¼ÇÂ¼´æÈëµ½list¼¯ºÏÖĞ
+						// å°†è¯»å–çš„æ¯ä¸€è¡Œçš„è®°å½•å­˜å…¥åˆ°listé›†åˆä¸­
 						list.add(map);
 					}
 
@@ -100,10 +116,10 @@ public class ReadFileUtils {
 				}
 				read.close();
 			} else {
-				System.out.println("ÕÒ²»µ½Ö¸¶¨µÄÎÄ¼ş");
+				System.out.println("æ‰¾ä¸åˆ°æŒ‡å®šçš„æ–‡ä»¶");
 			}
 		} catch (Exception e) {
-			System.out.println("¶ÁÈ¡ÎÄ¼şÄÚÈİ³ö´í");
+			System.out.println("è¯»å–æ–‡ä»¶å†…å®¹å‡ºé”™");
 			e.printStackTrace();
 		}
 		return list;

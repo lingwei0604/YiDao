@@ -2,16 +2,16 @@ package cn.ucai.util;
 
 public class Constants {
 
-	public static final String SUCCESS_ARRIVED_TIP = "ÄÍĞÄµÈ´ı£¬Ë¾»úÂíÉÏ¾Íµ½ÁË";
-	public static final String ERROR_AREA = "Æ¥ÅäÊ§°Ü£¡ÄúËùÔÚµÄÇøÓòÔİÎŞÈË½Óµ¥";
-	public static final String IMPUT_FROM_ADDRESS = "ÇëÊäÈëÄúµÄ³ö·¢µØ";
-	public static final String IMPUT_TO_ADDRESS = "ÇëÊäÈëÄúµÄÄ¿µÄµØ";
-	public static final String IMPUT_ID = "ÇëÊäÈëÑ¡ÔñµÄID";
-	public static final String NEXT_STEP = "½øÈëÏÂÒ»²½";
-	public static final String KEY_WORD = "ÇëÊäÈëÄúÒª²éÑ¯µÄ¹Ø¼ü×Ö";
-	public static final String INPUT_PHONE = "ÇëÊäÈëÄúµÄÊÖ»úºÅ";
-	public static final String INPUT_PASSWORD ="ÇëÊäÈëÄúµÄÃÜÂë";
-	public static final String SIGN_UP_SUCCEED = "×¢²á³É¹¦";
-	public static final String SIGN_IN_SUCCEED = "µÇÂ¼³É¹¦";
-	public static final String SAVE_SUCCEED = "±£´æ³É¹¦";
+	public static final String SUCCESS_ARRIVED_TIP = "è€å¿ƒç­‰å¾…ï¼Œå¸æœºé©¬ä¸Šå°±åˆ°äº†";
+	public static final String ERROR_AREA = "åŒ¹é…å¤±è´¥ï¼æ‚¨æ‰€åœ¨çš„åŒºåŸŸæš‚æ— äººæ¥å•";
+	public static final String IMPUT_FROM_ADDRESS = "è¯·è¾“å…¥æ‚¨çš„å‡ºå‘åœ°";
+	public static final String IMPUT_TO_ADDRESS = "è¯·è¾“å…¥æ‚¨çš„ç›®çš„åœ°";
+	public static final String IMPUT_ID = "è¯·è¾“å…¥é€‰æ‹©çš„ID";
+	public static final String NEXT_STEP = "è¿›å…¥ä¸‹ä¸€æ­¥";
+	public static final String KEY_WORD = "è¯·è¾“å…¥æ‚¨è¦æŸ¥è¯¢çš„å…³é”®å­—";
+	public static final String INPUT_PHONE = "è¯·è¾“å…¥æ‚¨çš„æ‰‹æœºå·";
+	public static final String INPUT_PASSWORD ="è¯·è¾“å…¥æ‚¨çš„å¯†ç ";
+	public static final String SIGN_UP_SUCCEED = "æ³¨å†ŒæˆåŠŸ";
+	public static final String SIGN_IN_SUCCEED = "ç™»å½•æˆåŠŸ";
+	public static final String SAVE_SUCCEED = "ä¿å­˜æˆåŠŸ";
 }

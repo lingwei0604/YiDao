@@ -4,15 +4,16 @@ import java.util.Calendar;
 
 public class DriverClient extends Thread {
 
+	int hours, minutes, seconds;
 	public void run() {
 
-		int hours, minutes, seconds;
+		
 		Calendar calendar = Calendar.getInstance();
 		for (int i = 0; i < 5; i++) {
-			hours = calendar.get(Calendar.HOUR_OF_DAY); // Ê±
-			minutes = calendar.get(Calendar.MINUTE);    // ·Ö
-			seconds = calendar.get(Calendar.SECOND);    // Ãë
-			System.out.println("Ë¾»ú£ºÒÑ¾­¹ýÈ¥ÁË" + seconds % 5 + "·ÖÖÓ");
+			hours = calendar.get(Calendar.HOUR_OF_DAY); // æ—¶
+			minutes = calendar.get(Calendar.MINUTE);    // åˆ†
+			seconds = calendar.get(Calendar.SECOND);    // ç§’
+			System.out.println("å¸æœºï¼šå·²ç»è¿‡åŽ»äº†" + seconds % 5 + "åˆ†é’Ÿ");
 		}
 	}
 }

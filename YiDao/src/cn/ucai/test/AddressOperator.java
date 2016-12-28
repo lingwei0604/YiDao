@@ -32,8 +32,8 @@
 //		
 //		System.out.println(address);
 //		while(true){
-//			System.out.println("[0]=Ö÷²Ëµ¥  [1]=²éÑ¯  [2]=Ìí¼Ó  [3]=É¾³ı  [4]=ĞŞ¸Ä  [5]=ÍË³ö");
-//			System.out.println("Welcome to YiDao£¬Please Input Number(above)£º");
+//			System.out.println("[0]=ä¸»èœå•  [1]=æŸ¥è¯¢  [2]=æ·»åŠ   [3]=åˆ é™¤  [4]=ä¿®æ”¹  [5]=é€€å‡º");
+//			System.out.println("Welcome to YiDaoï¼ŒPlease Input Number(above)ï¼š");
 //			InputStreamReader isr = new InputStreamReader(System.in);
 //			BufferedReader br = new BufferedReader(isr);
 //			String str = null;
@@ -51,19 +51,19 @@
 //			//case 3:delete();break;
 //			//case 4:change();break;
 //			case 5:map.clear();System.exit(0);break;
-//			default: System.out.println("²Ù×÷ÓĞÎó£¬ÇëÖØĞÂÊäÈë£¡");
+//			default: System.out.println("æ“ä½œæœ‰è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼");
 //			}
 //		}
 //			
 //		
 //		
 //	}
-//	public static void check(){  //ÒÔID×÷Îª¹Ø¼ü×Ö²éÑ¯Ñ§ÉúĞÅÏ¢
+//	public static void check(){  //ä»¥IDä½œä¸ºå…³é”®å­—æŸ¥è¯¢å­¦ç”Ÿä¿¡æ¯
 //		String key=null;
 //		try{
 //		InputStreamReader isr=new InputStreamReader(System.in); 
 //		BufferedReader br=new BufferedReader(isr); 
-//		System.out.print("ÇëÊäÈëËù²éÑ¯µÄÇøÓò±éºÅ£º"); 
+//		System.out.print("è¯·è¾“å…¥æ‰€æŸ¥è¯¢çš„åŒºåŸŸéå·ï¼š"); 
 //		key=br.readLine();
 //		}catch(IOException e){
 //		System.out.println(e); 
@@ -73,6 +73,6 @@
 //		System.out.println(address.id+" "+address.location); 
 //		}
 //		else
-//		System.out.println("ÄúËù²éÑ¯±àºÅĞÅÏ¢²»´æÔÚ£¡");
+//		System.out.println("æ‚¨æ‰€æŸ¥è¯¢ç¼–å·ä¿¡æ¯ä¸å­˜åœ¨ï¼");
 //		}
 //}

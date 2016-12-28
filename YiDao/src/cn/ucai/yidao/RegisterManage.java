@@ -39,8 +39,6 @@ public class RegisterManage {
 	static String phone, pass, type, password, toAddress, retStrFormatNowDate,
 			ip, salt;
 	static String ctype, model, price;
-	static List<Person> person;
-	static List<Driver> driver;
 	static List<DriverCar> driverCar;
 	static List<HashMap<String, String>> personList;
 	static Map<String, List<DriverCar>> driverCarMap;
@@ -50,32 +48,27 @@ public class RegisterManage {
 	static String newCarTypeId = null;
 	static DBDao dao = new DBDao();
 
-	// ÊÖ»úºÅµÄ¼ì²â£¬³¤¶È£¬Êı×Ö¡£
+	// æ‰‹æœºå·çš„æ£€æµ‹ï¼Œé•¿åº¦ï¼Œæ•°å­—ã€‚
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 
-		Map<String, List<Person>> map = new HashMap<String, List<Person>>();
-		person = new ArrayList<Person>();
-		Map<String, List<Driver>> map2 = new HashMap<String, List<Driver>>();
-		driver = new ArrayList<Driver>();
 
 		driverCarMap = new HashMap<String, List<DriverCar>>();
 		driverCar = new ArrayList<DriverCar>();
 		driverCarMap.put("p3", driverCar);
-		map2.put("p2", driver);
-		map.put("p", person);
+		
 
 		inputInit();
 
 		if (type.equals("0")) {
-			// ´ÓÊı¾İ¿âÖĞĞ´Èë¡¢¶ÁÈ¡Êı¾İ
+			// ä»æ•°æ®åº“ä¸­å†™å…¥ã€è¯»å–æ•°æ®
 			handleSqlPerson();
 			// personList = ReadFileUtils.readPersonMysqlFile();
 			String tabPerson = "yd_person";
 			personList = ReadFileUtils.findAll(tabPerson);
 
 		} else {
-			// ´ÓÊı¾İ¿âÖĞĞ´Èë¡¢¶ÁÈ¡Êı¾İ
+			// ä»æ•°æ®åº“ä¸­å†™å…¥ã€è¯»å–æ•°æ®
 			handleSqlDriver();
 			// personList = ReadFileUtils.readDriverMysqlFile();
 			String tabDriver = "driver";
@@ -111,17 +104,17 @@ public class RegisterManage {
 		phone = sc.next();
 		//
 		// while (!StringUtils.isMobile(phone)) {
-		// System.out.println("ÇëÊäÈëÓĞĞ§µÄÊÖ»úºÅÂë");
+		// System.out.println("è¯·è¾“å…¥æœ‰æ•ˆçš„æ‰‹æœºå·ç ");
 		// phone = sc.next();
 		// }
 
 		System.out.println(Constants.INPUT_PASSWORD);
 		pass = sc.next();
-		System.out.println("ÇëÑ¡Ôñ×¢²áµÄÀàĞÍ£¨³Ë¿Í/³µÖ÷£©");
+		System.out.println("è¯·é€‰æ‹©æ³¨å†Œçš„ç±»å‹ï¼ˆä¹˜å®¢/è½¦ä¸»ï¼‰");
 
 		type = sc.next();
 
-		if (type.equals("1")) {// Èç¹ûÊÇ³µÖ÷£¬½øĞĞ¿ÉÒÔµ½´ïµÄÄ¿µÄµØÑ¡Ôñ
+		if (type.equals("1")) {// å¦‚æœæ˜¯è½¦ä¸»ï¼Œè¿›è¡Œå¯ä»¥åˆ°è¾¾çš„ç›®çš„åœ°é€‰æ‹©
 			System.out.println(Constants.IMPUT_TO_ADDRESS);
 			String tabAddress = "yd_address";
 			// carSelectFromTolist = ReadFileUtils.readAddressMysqlFile();
@@ -160,9 +153,9 @@ public class RegisterManage {
 
 			while (itera.hasNext() && iterb.hasNext()) {
 
-				// ÒòÎªµü´úÆ÷Ã¿´Î»áÒÆ¶¯Ò»¸öÎ»ÖÃ£¬Ö¸ÕëÒÆ¶¯Ò»Î»£¬ÓÃÒ»¸öÁÙÊ±±äÁ¿À´±£´æÃ¿´ÎµÄÖµ
+				// å› ä¸ºè¿­ä»£å™¨æ¯æ¬¡ä¼šç§»åŠ¨ä¸€ä¸ªä½ç½®ï¼ŒæŒ‡é’ˆç§»åŠ¨ä¸€ä½ï¼Œç”¨ä¸€ä¸ªä¸´æ—¶å˜é‡æ¥ä¿å­˜æ¯æ¬¡çš„å€¼
 				String temp = (String) iterb.next();
-				// ÕÒ³ö¼üÖµ¶Ô£¬ÖµÒÔkey¿ªÍ·µÄ¼üÖµ¶Ô£¬²¢±éÀú
+				// æ‰¾å‡ºé”®å€¼å¯¹ï¼Œå€¼ä»¥keyå¼€å¤´çš„é”®å€¼å¯¹ï¼Œå¹¶éå†
 				if (temp.startsWith(keylike)) {
 					System.out.println(carSelectFromTolist.get(i));
 				}
@@ -185,7 +178,7 @@ public class RegisterManage {
 			if (emp.containsValue(key)) {
 				System.out.println(carSelectFromTolist.get(i));
 				HashMap locations = carSelectFromTolist.get(i);
-				// System.out.println(locations.get("location"));//ÎÄ¼şÎª´óĞ´£¬Êı¾İ¿âÎªĞ¡Ğ´
+				// System.out.println(locations.get("location"));//æ–‡ä»¶ä¸ºå¤§å†™ï¼Œæ•°æ®åº“ä¸ºå°å†™
 				return (String) locations.get("address");
 			}
 		}
@@ -216,7 +209,7 @@ public class RegisterManage {
 			usertype = (String) values.get("type");
 			if ((phonedb.indexOf(phone) != -1)
 					&& ((passdb.indexOf(mdpass)) != -1)) {
-				System.out.println("µÇÂ¼³É¹¦");
+				System.out.println("ç™»å½•æˆåŠŸ");
 				break;
 			}
 

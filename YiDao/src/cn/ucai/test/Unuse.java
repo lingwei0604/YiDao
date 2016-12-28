@@ -3,7 +3,7 @@ package cn.ucai.test;
 public class Unuse {
 
 //	try {
-//	if (type.equals("³Ë¿Í")) {
+//	if (type.equals("ä¹˜å®¢")) {
 //		per.add(new Person(phone, mdpass, "123456789",
 //				retStrFormatNowDate, ip, type));
 //		String line = System.getProperty("line.separator");
@@ -20,7 +20,7 @@ public class Unuse {
 //								+ pd.getPassword() + " : "
 //								+ pd.getSalt() + " : " + pd.getIp()
 //								+ ":" + pd.getType()).append(line);
-//				System.out.println("×¢²áÍê³É");
+//				System.out.println("æ³¨å†Œå®Œæˆ");
 //			}
 //		}
 //		fw.write(str.toString());
@@ -43,7 +43,7 @@ public class Unuse {
 //								+ pd.getSalt() + " : " + pd.getIp()
 //								+ ":" + pd.getType() + ":"
 //								+ pd.getToaddress()).append(line);
-//				System.out.println("×¢²áÍê³É");
+//				System.out.println("æ³¨å†Œå®Œæˆ");
 //			}
 //		}
 //		fw.write(str.toString());

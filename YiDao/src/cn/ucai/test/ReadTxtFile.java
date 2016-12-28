@@ -4,26 +4,26 @@ public class ReadTxtFile {
 
 //	public static List<HashMap<String, String>> readTxtFile(String filePath) {
 //
-//		// ¶¨Òå´æ´¢¶ÁÈ¡µ½µÄÊı¾İ¼ÇÂ¼µÄ¼¯ºÏ
+//		// å®šä¹‰å­˜å‚¨è¯»å–åˆ°çš„æ•°æ®è®°å½•çš„é›†åˆ
 //		personList = new ArrayList<HashMap<String, String>>();
 //		try {
 //
 //			String encoding = "GB2312";
 //			File file = new File(filePath);
-//			// ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
+//			// åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 //			if (file.isFile() && file.exists()) {
-//				// ¿¼ÂÇµ½±àÂë¸ñÊ½
+//				// è€ƒè™‘åˆ°ç¼–ç æ ¼å¼
 //				InputStreamReader read = new InputStreamReader(
 //						new FileInputStream(file), encoding);
 //				BufferedReader bufferedReader = new BufferedReader(read);
 //				String lineTxt = null;
-//				// ¼ÇÂ¼¶ÁÈ¡µÄÊı¾İÎÄ¼şµÄĞĞÊı
+//				// è®°å½•è¯»å–çš„æ•°æ®æ–‡ä»¶çš„è¡Œæ•°
 //				int count = 0;
-//				// ¶¨Òå×Ö¶ÎµÄÊı×é
+//				// å®šä¹‰å­—æ®µçš„æ•°ç»„
 //				String[] fields = null;
-//				// ¶¨ÒåÃ¿Ìõ¼ÇÂ¼È¡³öµÄ×Ö¶ÎÖµÊı×é
+//				// å®šä¹‰æ¯æ¡è®°å½•å–å‡ºçš„å­—æ®µå€¼æ•°ç»„
 //				String[] fieldValue = null;
-//				// ¶¨ÒåMap¼¯ºÏ
+//				// å®šä¹‰Mapé›†åˆ
 //				HashMap<String, String> map = new HashMap<String, String>();
 //				while ((lineTxt = bufferedReader.readLine()) != null) {
 //
@@ -41,7 +41,7 @@ public class ReadTxtFile {
 //								}
 //							}
 //						}
-//						// ½«¶ÁÈ¡µÄÃ¿Ò»ĞĞµÄ¼ÇÂ¼´æÈëµ½list¼¯ºÏÖĞ
+//						// å°†è¯»å–çš„æ¯ä¸€è¡Œçš„è®°å½•å­˜å…¥åˆ°listé›†åˆä¸­
 //						personList.add(map);
 //					}
 //
@@ -49,10 +49,10 @@ public class ReadTxtFile {
 //				}
 //				read.close();
 //			} else {
-//				System.out.println("ÕÒ²»µ½Ö¸¶¨µÄÎÄ¼ş");
+//				System.out.println("æ‰¾ä¸åˆ°æŒ‡å®šçš„æ–‡ä»¶");
 //			}
 //		} catch (Exception e) {
-//			System.out.println("¶ÁÈ¡ÎÄ¼şÄÚÈİ³ö´í");
+//			System.out.println("è¯»å–æ–‡ä»¶å†…å®¹å‡ºé”™");
 //			e.printStackTrace();
 //		}
 //		return personList;

@@ -5,7 +5,7 @@ import cn.ucai.entity.OutAddress;
 public class DriverAddressDao {
 
 	
-	//Ôö¼ÓÒ»¸öÊµÌå£¬´«ÈëÊÇÕû¸öÊµÌå
+	//å¢åŠ ä¸€ä¸ªå®ä½“ï¼Œä¼ å…¥æ˜¯æ•´ä¸ªå®ä½“
 	public void add(OutAddress outAddr){
 		
 		String sql = "";

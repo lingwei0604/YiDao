@@ -51,7 +51,7 @@ public class SunLiangLiang {
     }
 
 
-    // TODO: ÓÅ»¯
+    // TODO: ä¼˜åŒ–
     private static void saveAddress(List<String> addressStrList) {
         addressList = new ArrayList<>();
         for (String s : addressStrList) {
@@ -73,26 +73,26 @@ public class SunLiangLiang {
                 printAddressList(addressList);
                 break;
             case "1":
-                System.out.println("ÇëÊäÈëid£º");
+                System.out.println("è¯·è¾“å…¥idï¼š");
                // findAddressByKey(addressList, in.next(), ADDRESSID);
                 break;
             case "2":
-                System.out.println("ÇëÊäÈëÇøÃû£º");
+                System.out.println("è¯·è¾“å…¥åŒºåï¼š");
                 //findAddressByKey(addressList, in.next(), DISTRICT);
                 break;
             case "3":
-                System.out.println("ÇëÊäÈëÆ´Òô×ÖÄ¸£º");
+                System.out.println("è¯·è¾“å…¥æ‹¼éŸ³å­—æ¯ï¼š");
                // findAddressByKey(addressList, in.next(), PINYIN);
                 break;
             case "4":
-                //System.out.println("ÇëÊäÈëÏêÏ¸µØÃû£º");
+                //System.out.println("è¯·è¾“å…¥è¯¦ç»†åœ°åï¼š");
                 //findAddressByKey(addressList, in.next(), DETAIL);
                 break;
             case "5":
                 startTaking();
                 break;
             default:
-                System.out.println("·Ç·¨ÊäÈë£¬ÇëÖØĞÂÊäÈë£º");
+                System.out.println("éæ³•è¾“å…¥ï¼Œè¯·é‡æ–°è¾“å…¥ï¼š");
                 break;
         }
     }
@@ -103,7 +103,7 @@ public class SunLiangLiang {
         selectEnd();
         if (startAddress == null || endAddress == null) return;
         double distance = ThreadLocalRandom.current().nextDouble(1, 100);
-        System.out.println("Â·Ïß¹æ»®³É¹¦£¬Á½µØÏà¾à" + distance + "¹«Àï£¬ÇëÄÍĞÄµÈ´ıË¾»ú½Ó³µ¡£");
+        System.out.println("è·¯çº¿è§„åˆ’æˆåŠŸï¼Œä¸¤åœ°ç›¸è·" + distance + "å…¬é‡Œï¼Œè¯·è€å¿ƒç­‰å¾…å¸æœºæ¥è½¦ã€‚");
     }
 
 
@@ -111,12 +111,12 @@ public class SunLiangLiang {
         Scanner in = new Scanner(System.in);
         List<Address> findList;
         do {
-            System.out.println("ÇëÊäÈëÄ¿µÄµØ£º");
+            System.out.println("è¯·è¾“å…¥ç›®çš„åœ°ï¼š");
             findList = findAddress(in.next());
         } while (findList.size() == 0);
 
         do {
-            System.out.println("ÇëÊäÈëIDÑ¡Ôñ£º");
+            System.out.println("è¯·è¾“å…¥IDé€‰æ‹©ï¼š");
             endAddress = selectAddressById(addressList, in.next());
         } while (endAddress == null);
     }
@@ -126,12 +126,12 @@ public class SunLiangLiang {
         Scanner in = new Scanner(System.in);
         List<Address> findList;
         do {
-            System.out.println("ÇëÊäÈëÆğÊ¼µØ£º");
+            System.out.println("è¯·è¾“å…¥èµ·å§‹åœ°ï¼š");
             findList = findAddress(in.next());
         } while (findList.size() == 0);
 
         do {
-            System.out.println("ÇëÊäÈëIDÑ¡Ôñ£º");
+            System.out.println("è¯·è¾“å…¥IDé€‰æ‹©ï¼š");
             startAddress = selectAddressById(addressList, in.next());
         } while (startAddress == null);
     }
@@ -195,7 +195,7 @@ public class SunLiangLiang {
 
     private static void printAddressList(List<Address> list) {
         if (list.size() == 0) {
-            System.out.println("ÎŞ½á¹û");
+            System.out.println("æ— ç»“æœ");
             return;
         }
 
@@ -206,8 +206,8 @@ public class SunLiangLiang {
 
 
     private static void showMenu() {
-        System.out.println("ÇëÊäÈëÊı×Ö½øĞĞÏà¹Ø²Ù×÷£º\n" +
-                "0.²éÑ¯ËùÓĞ\n1.ÊäÈëid²éÑ¯\n2.ÊäÈëÇøÃû²éÑ¯\n3.ÊäÈëÊ××ÖÄ¸\n4.ÊäÈëÏêÏ¸µØÃû²éÑ¯\n5.¿ªÊ¼´ò³µ");
+        System.out.println("è¯·è¾“å…¥æ•°å­—è¿›è¡Œç›¸å…³æ“ä½œï¼š\n" +
+                "0.æŸ¥è¯¢æ‰€æœ‰\n1.è¾“å…¥idæŸ¥è¯¢\n2.è¾“å…¥åŒºåæŸ¥è¯¢\n3.è¾“å…¥é¦–å­—æ¯\n4.è¾“å…¥è¯¦ç»†åœ°åæŸ¥è¯¢\n5.å¼€å§‹æ‰“è½¦");
     }
 
 
