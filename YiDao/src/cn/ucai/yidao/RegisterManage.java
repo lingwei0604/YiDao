@@ -34,7 +34,7 @@ import cn.ucai.util.MD5Utils;
 import cn.ucai.util.ReadFileUtils;
 import cn.ucai.util.StringUtils;
 
-public class Register {
+public class RegisterManage {
 
 	static String phone, pass, type, password, toAddress, retStrFormatNowDate,
 			ip, salt;
@@ -46,8 +46,6 @@ public class Register {
 	static Map<String, List<DriverCar>> driverCarMap;
 	static Scanner sc = new Scanner(System.in);
 
-	static AddreOperator addr = new AddreOperator();
-
 	static CarManage carManage = new CarManage();
 	static String newCarTypeId = null;
 	static DBDao dao = new DBDao();
@@ -55,6 +53,7 @@ public class Register {
 	// 手机号的检测，长度，数字。
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
+
 		Map<String, List<Person>> map = new HashMap<String, List<Person>>();
 		person = new ArrayList<Person>();
 		Map<String, List<Driver>> map2 = new HashMap<String, List<Driver>>();
@@ -72,7 +71,7 @@ public class Register {
 			// 从数据库中写入、读取数据
 			handleSqlPerson();
 			// personList = ReadFileUtils.readPersonMysqlFile();
-			String tabPerson ="yd_person";
+			String tabPerson = "yd_person";
 			personList = ReadFileUtils.findAll(tabPerson);
 
 		} else {
@@ -83,6 +82,7 @@ public class Register {
 			personList = ReadFileUtils.findAll(tabDriver);
 
 		}
+
 		signin();
 
 	}
@@ -109,11 +109,11 @@ public class Register {
 
 		System.out.println(Constants.INPUT_PHONE);
 		phone = sc.next();
-//
-//		while (!StringUtils.isMobile(phone)) {
-//			System.out.println("请输入有效的手机号码");
-//			phone = sc.next();
-//		}
+		//
+		// while (!StringUtils.isMobile(phone)) {
+		// System.out.println("请输入有效的手机号码");
+		// phone = sc.next();
+		// }
 
 		System.out.println(Constants.INPUT_PASSWORD);
 		pass = sc.next();
@@ -224,7 +224,7 @@ public class Register {
 
 		if (usertype.equals("0")) {
 			// new AddreOperator();
-			AddreOperator.Main();
+			AddreManage.Main();
 		} else {
 			// new CarManage();
 			CarManage.Main2();
@@ -233,62 +233,6 @@ public class Register {
 			// handleType3(filename3, map3);
 			handleSqlFormTo();
 		}
-	}
-
-	public static List<HashMap<String, String>> readTxtFile(String filePath) {
-
-		// 定义存储读取到的数据记录的集合
-		personList = new ArrayList<HashMap<String, String>>();
-		try {
-
-			String encoding = "GB2312";
-			File file = new File(filePath);
-			// 判断文件是否存在
-			if (file.isFile() && file.exists()) {
-				// 考虑到编码格式
-				InputStreamReader read = new InputStreamReader(
-						new FileInputStream(file), encoding);
-				BufferedReader bufferedReader = new BufferedReader(read);
-				String lineTxt = null;
-				// 记录读取的数据文件的行数
-				int count = 0;
-				// 定义字段的数组
-				String[] fields = null;
-				// 定义每条记录取出的字段值数组
-				String[] fieldValue = null;
-				// 定义Map集合
-				HashMap<String, String> map = new HashMap<String, String>();
-				while ((lineTxt = bufferedReader.readLine()) != null) {
-
-					map = new HashMap<String, String>();
-					if (count == 0) {
-						fields = lineTxt.split("\\:");
-
-					} else {
-						fieldValue = lineTxt.split("\\:");
-						for (int i = 0, row = fields.length; i < row; i++) {
-							for (int j = 0, col = fieldValue.length; j < col; j++) {
-								if (i == j) {
-									map.put(fields[i], fieldValue[j]);
-
-								}
-							}
-						}
-						// 将读取的每一行的记录存入到list集合中
-						personList.add(map);
-					}
-
-					count++;
-				}
-				read.close();
-			} else {
-				System.out.println("找不到指定的文件");
-			}
-		} catch (Exception e) {
-			System.out.println("读取文件内容出错");
-			e.printStackTrace();
-		}
-		return personList;
 	}
 
 	public static InetAddress getInetAddress() {

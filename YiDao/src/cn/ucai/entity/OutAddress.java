@@ -20,17 +20,7 @@ public class OutAddress {
 		this.uid = uid;
 	}
 
-	public OutAddress(int uid, int newcarphone, String startaddress,
-			String endAddress2, float totalprice) {
-		super();
-		this.uid=uid;
-		this.startaddress = startaddress;
-		this.endaddress = endaddress;
-		this.time = time;
-		this.drivercarid = newcarphone;
-		this.totalprice = totalprice;
-	}
-
+	
 	public void setTotalprice(float totalprice) {
 		this.totalprice = totalprice;
 	}
@@ -64,6 +54,11 @@ public class OutAddress {
 		this.startaddress = startaddress;
 		this.endaddress = endaddress;
 		this.time = time;
+	}
+
+	public OutAddress(int i, int newCarPhone, String startAddress2,
+			String endAddress2, float totalPrice2) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getStartaddress() {
