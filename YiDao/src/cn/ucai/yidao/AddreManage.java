@@ -135,7 +135,8 @@ public class AddreManage {
 			}
 		}
 		System.out.println(Constants.IMPUT_ID);
-		System.out.println(matchAddress(true));
+		matchAddress(true);
+		// System.out.println(matchAddress(true));
 
 		AddreThread addrthread = new AddreThread();
 		addrthread.start();
@@ -198,11 +199,12 @@ public class AddreManage {
 
 	public static String matchAddress(boolean needSave) throws Exception {
 		String key = null;
+		key = sc.next();
 		Map<String, String> emp = new HashMap<String, String>();
 		for (int i = 0; i < addrList.size(); i++) {
 			emp = (HashMap<String, String>) addrList.get(i);
 
-			if (emp.containsValue(sc.next())) {
+			if (emp.containsValue(key)) {
 				// System.out.println(list.get(i));
 				HashMap<?, ?> locations = addrList.get(i);
 				endAddress = (String) locations.get("address");
@@ -287,8 +289,8 @@ public class AddreManage {
 		}
 		System.out.println("您本次出行所乘坐的车子起步价为：" + basePrice);
 		System.out.println(Constants.SUCCESS_ARRIVED_TIP);
-		System.out.println("本次出行预计消费了"
-				+ (Math.random() * 5 * (int) (Double.parseDouble(basePrice))));
+		// System.out.println("本次出行预计消费了"+ (Math.random() * 5 * (int)
+		// (Double.parseDouble(basePrice))));
 
 	}
 
